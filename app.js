@@ -6,7 +6,7 @@ var opConsoleApp = angular.module('opConsoleApp', ['ngRoute', 'ui.bootstrap',
     'ui.router', 'angular-jwt', 'angular.filter', 'satellizer',
     'LocalStorageModule', 'base64', 'easypiechart', 'ngNotify',
     'checklist-model', 'as.sortable', 'ui.slimscroll', 'oitozero.ngSweetAlert',
-    'ngTagsInput', 'btford.socket-io', 'cp.ngConfirm']);
+    'ngTagsInput', 'btford.socket-io', 'cp.ngConfirm', 'ui.grid','ui.grid.importer']);
 
 
 //app router
@@ -88,6 +88,13 @@ opConsoleApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$
             data: {
                 requireLogin: true
             }
+        }).state('op-console.ipPhone', {
+            url: "/ipPhone",
+            templateUrl: "app/views/ipPhone/ipPhone.html",
+            controller: "ipPhoneController",
+            data: {
+                requireLogin: true
+            }
         })
     }], function () {
 
@@ -107,7 +114,8 @@ var baseUrls = {
     'clusterConfigurationBaseURL': 'http://clusterconfig.app.veery.cloud/DVP/API/1.0.0.0/',
     'ipMessageURL': 'http://ipmessagingservice.app.veery.cloud/',
     'billingserviceURL': 'http://billingservice.app.veery.cloud/DVP/API/1.0.0.0/Billing/',
-    'notification': 'http://notificationservice.app.veery.cloud'
+    'notification': 'http://notificationservice.app.veery.cloud',
+    'ipPhoneUrl':'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/IPPhone'
 };
 
 opConsoleApp.constant('baseUrls', baseUrls);
