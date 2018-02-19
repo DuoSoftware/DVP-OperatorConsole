@@ -66,6 +66,9 @@ opConsoleApp.controller('consoleCtrl', function ($scope, $filter, $state, ngNoti
             case 'trunkConfiguration':
                 $state.go('op-console.trunk-configuration');
                 break;
+            case 'voxboneNumberConfiguration':
+                $state.go('op-console.voxbone-number-configuration');
+                break;
             case 'companyInfo':
                 $state.go('op-console.all-company-information');
                 break;

@@ -58,6 +58,12 @@ opConsoleApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$
             data: {
                 requireLogin: true
             }
+        }).state('op-console.voxbone-number-configuration', {
+            url: "/voxbone-number-configuration",
+            templateUrl: "app/views/voxbone-number-config/voxboneNumberConfigMain.html",
+            data: {
+                requireLogin: true
+            }
         }).state('op-console.all-company-information', {
             url: "/all-company-information",
             templateUrl: "app/views/company/all-company-information.html",
@@ -129,7 +135,8 @@ var baseUrls = {
     'billingserviceURL': 'http://billingservice.app.veery.cloud/DVP/API/1.0.0.0/Billing/',
     'notification': 'http://notificationservice.app.veery.cloud',
     'authUrl':'http://userservice.app1.veery.cloud',
-    'cdrProcessor':'http://cdrprocessor.app.veery.cloud/DVP/API/1.0.0.0/CallCDR/' //cdrprocessor.app.veery.cloud
+    'cdrProcessor':'http://cdrprocessor.app.veery.cloud/DVP/API/1.0.0.0/CallCDR/', //cdrprocessor.app.veery.cloud
+    'voxboneApi': 'http://localhost:8832/DVP/API/1.0.0.0/voxbone/'
 };
 
 opConsoleApp.constant('moment', moment);
