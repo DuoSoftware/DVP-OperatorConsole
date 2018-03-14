@@ -874,7 +874,7 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
     var assignUnit = function (_updatePackage) {
         $scope.isupdatePackage = true;
         try {
-            _updatePackage.topUpCount = $scope.packageData.topUpCount ? $scope.packageData.topUpCount : 0;
+            _updatePackage.topUpCount = $scope.packageData.topUpCount ? $scope.packageData.topUpCount : 1;
             userService.AssignUnit(_updatePackage).then(function (response) {
                 $scope.isupdatePackage = false;
                 if (response && response.IsSuccess) {

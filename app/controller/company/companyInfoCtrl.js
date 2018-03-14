@@ -41,6 +41,7 @@ opConsoleApp.controller('companyInfoCtrl', function ($scope, ngNotify, companyIn
     $scope.companyObj = null;
     $scope.companyFilteredList = [];
     $scope.isLoadingCompany = false;
+    $scope.searchCriteria = "";
     var getAllCompanyInfo = function () {
         $scope.isLoadingCompany = true;
         companyInfoServices.getAllCompanyDetails().then(function (data) {

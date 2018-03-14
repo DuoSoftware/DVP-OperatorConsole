@@ -1,0 +1,136 @@
+<div class="row blur-this">
+    <div class="col-lg-12 col-sm-12 col-xs-12">
+
+        <div class="table-widget">
+
+            <!--page title -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="page-title">
+
+                        <!--<div class="title_right">-->
+                        <div class="tbl-desc-top">
+                            <ul class="pull-right">
+
+                                <li ng-if="!isLoadingRequests">
+                                    <button class="btn btn-green btn-green-op" ng-click="backToNumberList();">
+                                        Back
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                        <!--</div>-->
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-12 col-xs-12">
+                <div class="panel panel-default col-lg-4 col-xs-4">
+                    <div class="panel-body">
+                        <div class="company-profile-widget">
+
+                            <div class="widget-row-company">
+                                <ul>
+                                    <li class="text-left text-sm">
+                                        Company
+                                    </li>
+                                    <li class="text-left ng-binding">
+                                        {{selectedDidRequest.Company}}
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="widget-row-company">
+                                <ul>
+                                    <li class="text-left text-sm">
+                                        DID ID
+                                    </li>
+                                    <li class="text-left ng-binding">
+                                        {{selectedDidRequest.DidId}}
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="widget-row-company">
+                                <ul>
+                                    <li class="text-left text-sm">
+                                        DID Number
+                                    </li>
+                                    <li class="text-left ng-binding">
+                                        {{selectedDidRequest.DidNumber}}
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="widget-row-company">
+                                <ul>
+                                    <li class="text-left text-sm">
+                                        Capacity Requested
+                                    </li>
+                                    <li class="text-left ng-binding">
+                                        {{selectedDidRequest.CapacityRequested}}
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="widget-row-company">
+                                <ul>
+                                    <li class="text-left text-sm">
+                                        RequestStatus
+                                    </li>
+                                    <li class="text-left ng-binding">
+                                        {{selectedDidRequest.RequestStatus}}
+                                    </li>
+                                </ul>
+                            </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                <div class="panel panel-default col-lg-8 col-xs-8">
+                    <div class="panel-body">
+                        <form name="frmVoxDid" novalidate>
+                            <div class="form-group">
+                                <label for="truckId">Trunk Code*</label>
+                                <input type="text"
+                                       name="truckId"
+                                       ng-model="selectedDidRequest.TrunkId"
+                                       class="form-control sign-txt"
+                                       id="truckId"
+                                       required>
+                            </div>
+                            <div class="form-group">
+                                <label for="capacity">Enabled Capacity*</label>
+                                <input type="number"
+                                       name="capacity"
+                                       min="0"
+                                       ng-model="selectedDidRequest.CapacityEnabled"
+                                       class="form-control sign-txt"
+                                       id="capacity"
+                                       required>
+                            </div>
+                            <div class="form-group">
+                                <label for="enableDid">Enable DID</label>
+                                <input type="checkbox"
+                                       name="enableDid"
+                                       ng-model="selectedDidRequest.DidEnabled"
+                                       class="form-control sign-txt"
+                                       id="enableDid">
+                            </div>
+
+                            <button ng-if="!isUpdatingDidRequest"
+                                    type="button"
+                                    ng-disabled="frmVoxDid.$invalid"
+                                    ng-click="configureDidRequest()"
+                                    class="btn btn-green btn-block">Update Number
+                            </button>
+                            <button ng-if="isUpdatingDidRequest"
+                                    disabled
+                                    type="button"
+                                    class="btn btn-green">Please Wait...
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
