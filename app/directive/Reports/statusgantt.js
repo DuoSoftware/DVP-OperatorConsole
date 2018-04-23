@@ -2,7 +2,7 @@
  * Created by Waruna on 1/22/2018.
  */
 
-opConsoleApp.directive('statusgantt', function ($timeout) {
+opConsoleApp.directive('statusgantt', function () {
     return {
 
         restrict: 'EA',

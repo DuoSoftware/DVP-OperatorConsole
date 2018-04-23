@@ -14,7 +14,13 @@ var opConsoleApp = angular.module('opConsoleApp', ['ngRoute', 'ui.bootstrap',
     'ui.grid.selection',
     'ui.grid.moveColumns',
     'ui.grid.infiniteScroll',
-    'ui.grid.grouping','ui.select', 'ngSanitize','ngCsv','ui.bootstrap.datetimepicker','ngTagsInput','gantt','angularMoment','moment-picker']);
+    'ui.grid.grouping','ui.select', 'ngSanitize','ngCsv','ui.bootstrap.datetimepicker','ngTagsInput','gantt',
+    'gantt.table',
+    'gantt.labels',
+    'gantt.tooltips',
+    'gantt.sortable',
+    'gantt.resizeSensor',
+    'gantt.dependencies','angularMoment','moment-picker']);
 
 
 opConsoleApp.constant('moment', moment);
