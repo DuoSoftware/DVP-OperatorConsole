@@ -255,7 +255,26 @@ opConsoleApp.controller('consoleCtrl', function ($scope, $filter, $state, ngNoti
             console.log(err);
             $scope.showAlert("Validate Token", "error", "Fail To Validate Token or Communication Error.");
         });
-    }
+    };
+
+
+    loginService.getNavigationAccess(function (result) {
+
+        /*// Kasun_Wijeratne_14_JAN_2018
+        if (Object.keys(result).length > 5) {
+            $rootScope.allUsers = true;
+            // $state.go('console.dashboard');
+        } else {
+            if (Object.keys(result).length != 0) {
+                $rootScope.freshUser = true;
+                $rootScope.allUsers = false;
+            }
+        }*/
+        // Kasun_Wijeratne_14_JAN_2018 - END
+
+        $scope.accessNavigation = result;
+        //if($scope.accessNavigation.BASIC INFO)
+    });
 });
 
 

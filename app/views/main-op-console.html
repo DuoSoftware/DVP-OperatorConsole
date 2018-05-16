@@ -57,7 +57,7 @@
                             <!--<h3>General</h3>-->
                             <ul class="nav side-menu">
                                 <li><a href="javascript:void(0);"
-                                       ng-click="goToNavigation('serverPerformance')"><i>
+                                       ng-click="goToNavigation('serverPerformance')" ng-show="accessNavigation.SERVERPERFORMANCE"><i>
                                     <img src="assets/img/ui-icon-1/chat.svg" width="20px"/>
                                 </i> Server Monitor</a>
 
@@ -78,7 +78,7 @@
 
 
                                 <!-- company -->
-                                <li>
+                                <li ng-show="accessNavigation.COMPANYINFO">
                                     <a ng-click="goToNavigation('companyInfo')">
                                         <i>
                                             <img src="assets/img/ui-icon-1/letters.svg" width="20px"/>
@@ -93,16 +93,16 @@
                                     <!--</ul>-->
                                 </li>
 
-                                <li><a>
+                                <li ng-show="accessNavigation.UNIT || accessNavigation.PACKAGE"><a>
 
                                     <i>
                                         <img src="assets/img/ui-icon-1/files-1.svg" width="20px"/>
                                     </i> Package & Unit <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
-                                        <li><a ng-click="goToNavigation('package')"
+                                        <li ng-show="accessNavigation.PACKAGE"><a ng-click="goToNavigation('package')"
                                                href="javascript:void(0);">Package</a>
                                         </li>
-                                        <li><a ng-click="goToNavigation('unit')"
+                                        <li ng-show="accessNavigation.UNIT"><a ng-click="goToNavigation('unit')"
                                                href="javascript:void(0);">Unit</a>
                                         </li>
                                     </ul>
@@ -122,33 +122,33 @@
                                 <!--</ul>-->
                                 <!--</li>-->
 
-                                <li>
+                                <li ng-show="accessNavigation.CODECMGMT">
                                     <a href="javascript:void(0);" ng-click="goToNavigation('codecManagement')"><i> <img
                                             src="assets/img/ui-icon-1/music.svg" width="20px"/></i> Codec Management</a>
                                 </li>
 
-                                <li><a href="javascript:void(0);"
+                                <li ng-show="accessNavigation.TRUNKCONFIG"><a href="javascript:void(0);"
                                        ng-click="goToNavigation('trunkConfiguration')"><i>
                                     <img src="assets/img/ui-icon-1/shield.svg" width="20px"/>
                                 </i> Trunk Configuration</a>
                                 </li>
 
-                                <li><a href="javascript:void(0);"
+                                <li ng-show="accessNavigation.VOXNUMCONFIG"><a href="javascript:void(0);"
                                        ng-click="goToNavigation('voxboneNumberConfiguration')"><i>
                                     <img src="assets/img/ui-icon-1/shield.svg" width="20px"/>
                                 </i> Voxbone Numbers</a>
                                 </li>
 
 
-                                <li>
+                                <li ng-show="accessNavigation.AGENTPRODUCTIVITY || accessNavigation.AGENTSUMMERY">
                                     <a><i><img src="assets/img/ui-icon-1/files-1.svg" width="20px"/></i> Reports
                                         <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
-                                        <li>
+                                        <li ng-show="accessNavigation.AGENTPRODUCTIVITY">
                                             <a ng-click="goToNavigation('agentProductivity')"
                                                href="javascript:void(0);">Agent Productivity</a>
                                         </li>
-                                        <li>
+                                        <li ng-show="accessNavigation.AGENTSUMMERY">
                                             <a ng-click="goToNavigation('agentSummery')" href="javascript:void(0);">Agent
                                                 Summery</a>
                                         </li>

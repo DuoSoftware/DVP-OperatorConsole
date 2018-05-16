@@ -50,31 +50,36 @@ opConsoleApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$
             url: "/monitor-server-performance",
             templateUrl: "app/views/monitor-server-performance.html",
             data: {
-                requireLogin: true
+                requireLogin: true,
+                navigation:'SERVERPERFORMANCE'
             }
         }).state('op-console.codec-management', {
             url: "/codec-management",
             templateUrl: "app/views/codec-management/codec-management.html",
             data: {
-                requireLogin: true
+                requireLogin: true,
+                navigation:'CODECMGMT'
             }
         }).state('op-console.trunk-configuration', {
             url: "/trunk-configuration",
             templateUrl: "app/views/trunk-configuration/trunk-configuration.html",
             data: {
-                requireLogin: true
+                requireLogin: true,
+                navigation:'TRUNKCONFIG'
             }
         }).state('op-console.voxbone-number-configuration', {
             url: "/voxbone-number-configuration",
             templateUrl: "app/views/voxbone-number-config/voxboneNumberConfigMain.html",
             data: {
-                requireLogin: true
+                requireLogin: true,
+                navigation:'VOXNUMCONFIG'
             }
         }).state('op-console.all-company-information', {
             url: "/all-company-information",
             templateUrl: "app/views/company/all-company-information.html",
             data: {
-                requireLogin: true
+                requireLogin: true,
+                navigation: "COMPANYINFO"
             }
         }).state('op-console.company-summary', {
             url: "/company-summary?id",
@@ -93,14 +98,16 @@ opConsoleApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$
             templateUrl: "app/views/package/package.html",
             controller: "packageController",
             data: {
-                requireLogin: true
+                requireLogin: true,
+                navigation:"PACKAGE"
             }
         }).state('op-console.unit', {
             url: "/unit",
             templateUrl: "app/views/package/unit.html",
             controller: "unitController",
             data: {
-                requireLogin: true
+                requireLogin: true,
+                navigation:"UNIT"
             }
         }).state('op-console.create-company', {
             url: "/create-company",
@@ -114,12 +121,17 @@ opConsoleApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$
             controller: "agentProductivityController",
             templateUrl: "app/views/reports/agentProductivity.html",
             data: {
-                requireLogin: true
+                requireLogin: true,
+                navigation: "AGENTPRODUCTIVITY"
             }
         }).state('op-console.agent-summery', {
             url: "/agent-summery",
             controller: "agentStatusEventController",
-            templateUrl: "app/views/reports/agentStatusEventList.html"
+            templateUrl: "app/views/reports/agentStatusEventList.html",
+            data :{
+                requireLogin:true,
+                navigation: "AGENTSUMMERY"
+            }
         })
     }], function () {
 
