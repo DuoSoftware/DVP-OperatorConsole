@@ -75,6 +75,7 @@
                                     <option ng-if="packageObj.packageType !== 'BASIC'" value="PREMIUM-02">Premium-02</option>
                                     <option ng-if="packageObj.packageType !== 'BASIC'" value="PABX">Pabx</option>
                                     <option ng-if="packageObj.packageType !== 'BASIC'" value="CALLCENTER">Callcenter</option>
+                                    <option ng-if="packageObj.packageType !== 'BASIC'" value="CHATBOT">Chat-bot</option>
                                 </select>
                             </div>
                         </div>
@@ -111,6 +112,10 @@
                                 <label class="checkbox-inline">
                                     <input type="checkbox" checklist-model="packageObj.consoles" id="inlineCheckboxA"
                                            value="AGENT_CONSOLE"> Agent Console
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" checklist-model="packageObj.consoles" id="inlineCheckboxA"
+                                           value="BOT_CONSOLE"> Bot Console
                                 </label>
                             </div>
                         </div>
