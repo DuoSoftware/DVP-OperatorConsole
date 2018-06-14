@@ -1,71 +1,81 @@
 /**
  * Created by dinusha on 4/7/2017.
  */
-(function() {
+(function () {
 
-    var sipUserService = function($http, baseUrls)
-    {
-        var getContexts = function(companyId)
-        {
+    var sipUserService = function ($http, baseUrls) {
+        var getContexts = function (companyId) {
             return $http({
                 method: 'GET',
-                url: baseUrls.sipUserEndpointService + 'Contexts/ClientCompany/' + companyId
-            }).then(function(resp)
-            {
+                url: baseUrls.sipUserEndpointService + 'SipUser/Contexts/ClientCompany/' + companyId
+            }).then(function (resp) {
                 return resp.data;
             })
         };
 
-        var saveCodecPreferenses = function(codecInfo, companyId)
-        {
+        var saveCodecPreferenses = function (codecInfo, companyId) {
 
             return $http({
                 method: 'POST',
-                url: baseUrls.sipUserEndpointService + 'ContextCodecPreferences/ClientCompany/' + companyId,
+                url: baseUrls.sipUserEndpointService + 'SipUser/ContextCodecPreferences/ClientCompany/' + companyId,
                 data: codecInfo
-            }).then(function(resp)
-            {
+            }).then(function (resp) {
                 return resp.data;
             })
         };
 
-        var updateCodecPreferenses = function(context1, context2, codecInfo, companyId)
-        {
+        var updateCodecPreferenses = function (context1, context2, codecInfo, companyId) {
 
             return $http({
                 method: 'PUT',
-                url: baseUrls.sipUserEndpointService + 'ContextCodecPreferences/Context1/' + context1 + '/Context2/' + context2 + '/ClientCompany/' + companyId,
+                url: baseUrls.sipUserEndpointService + 'SipUser/ContextCodecPreferences/Context1/' + context1 + '/Context2/' + context2 + '/ClientCompany/' + companyId,
                 data: codecInfo
-            }).then(function(resp)
-            {
+            }).then(function (resp) {
                 return resp.data;
             })
         };
 
-        var removeCodecPreferences = function(id, companyId)
-        {
+        var removeCodecPreferences = function (id, companyId) {
 
             return $http({
                 method: 'DELETE',
-                url: baseUrls.sipUserEndpointService + 'ContextCodecPreferences/' + id + '/ClientCompany/' + companyId
-            }).then(function(resp)
-            {
+                url: baseUrls.sipUserEndpointService + 'SipUser/ContextCodecPreferences/' + id + '/ClientCompany/' + companyId
+            }).then(function (resp) {
                 return resp.data;
             })
         };
 
-        var getCodecPreferenses = function(companyId)
-        {
+        var getCodecPreferenses = function (companyId) {
             return $http({
                 method: 'GET',
-                url: baseUrls.sipUserEndpointService + 'ContextCodecPreferences/ClientCompany/' + companyId
-            }).then(function(resp)
-            {
+                url: baseUrls.sipUserEndpointService + 'SipUser/ContextCodecPreferences/ClientCompany/' + companyId
+            }).then(function (resp) {
                 return resp.data;
+            })
+        };
+
+        var getPhoneConfigs = function () {
+            return $http({
+                method: 'GET',
+                url: baseUrls.sipUserEndpointService + 'IPPhone/Configs'
+            }).then(function (resp) {
+                return (resp.data && resp.data.IsSuccess) ? resp.data.Result : [];
+            })
+        };
+
+        var reassignIpPhoneToCompany = function (mac,company) {
+            return $http({
+                method: 'PUT',
+                url: baseUrls.sipUserEndpointService + 'IPPhone/Config/'+mac+'/reassign',
+                data:{company:company}
+            }).then(function (resp) {
+                return resp.data.IsSuccess;
             })
         };
 
         return {
+            reassignIpPhoneToCompany: reassignIpPhoneToCompany,
+            getPhoneConfigs: getPhoneConfigs,
             getContexts: getContexts,
             saveCodecPreferenses: saveCodecPreferenses,
             getCodecPreferenses: getCodecPreferenses,

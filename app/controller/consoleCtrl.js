@@ -81,6 +81,9 @@ opConsoleApp.controller('consoleCtrl', function ($scope, $filter, $state, ngNoti
             case 'createCompany':
                 $state.go('op-console.create-company');
                 break;
+                case 'phone_configuration':
+                $state.go('op-console.phone_configuration');
+                break;
         }
     };
 
