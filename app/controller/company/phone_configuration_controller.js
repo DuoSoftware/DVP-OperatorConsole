@@ -98,7 +98,7 @@
                             row.isSelected = false;
                             return;
                         }
-
+                        $scope.isTableLoading = true;
                         sipUserService.reassignIpPhoneToCompany(row.entity.mac,$scope.selected_company.value.companyId).then(function (response) {
                             if(response){
                                 $scope.notify('Successfully Assign Phone To Company.', 'success');
@@ -110,6 +110,7 @@
                                 $scope.notify('Fail To Assign Phone '+row.entity.mac+' To Company '+$scope.selected_company.value.companyName+'.', 'error');
                                 row.isSelected = false;
                             }
+                            $scope.isTableLoading = false;
                         },function (error) {
                             $scope.notify('Fail To Assign Phone To Company.', 'error');
                             row.isSelected = false;
