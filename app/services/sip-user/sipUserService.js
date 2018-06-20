@@ -73,7 +73,39 @@
             })
         };
 
+        var postCompanyPhoneList = function (phoneList) {
+            return $http({
+                method: 'POST',
+                url: baseUrls.sipUserEndpointService + 'IPPhone/Configs',
+                data: phoneList
+            }).then(function (resp) {
+                return resp.data;
+            })
+        };
+        var getAllPhoneList = function (tenant,company) {
+            return $http({
+                method: 'GET',
+                url: baseUrls.sipUserEndpointService + 'IPPhone/Configs/company/'+company+'/tenant/'+tenant,
+            }).then(function (resp) {
+                return resp.data;
+
+            });
+        };
+
+        var getPhoneTemplates = function (tenant,company) {
+            return $http({
+                method: 'GET',
+                url: baseUrls.sipUserEndpointService + 'IPPhone/Templates',
+            }).then(function (resp) {
+                return (resp.data && resp.data.IsSuccess) ? resp.data.Result : [];
+
+            });
+        };
+
         return {
+            getPhoneTemplates:getPhoneTemplates,
+            postCompanyPhoneList: postCompanyPhoneList,
+            getAllPhoneList:getAllPhoneList,
             reassignIpPhoneToCompany: reassignIpPhoneToCompany,
             getPhoneConfigs: getPhoneConfigs,
             getContexts: getContexts,

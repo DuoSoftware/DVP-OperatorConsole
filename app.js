@@ -6,7 +6,7 @@ var opConsoleApp = angular.module('opConsoleApp', ['ngRoute', 'ui.bootstrap',
     'ui.router', 'angular-jwt', 'angular.filter', 'satellizer',
     'LocalStorageModule', 'base64', 'easypiechart', 'ngNotify',
     'checklist-model', 'as.sortable', 'ui.slimscroll', 'oitozero.ngSweetAlert',
-    'ngTagsInput', 'btford.socket-io', 'cp.ngConfirm', 'ui.grid.pinning',
+    'ngTagsInput', 'btford.socket-io', 'cp.ngConfirm', 'ui.grid','ui.grid.importer', 'ui.grid.pinning',
     'ui.grid.autoResize',
     'ui.grid.exporter',
     'ui.grid.resizeColumns',
@@ -111,7 +111,7 @@ opConsoleApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$
             }
         }).state('op-console.phone_configuration', {
             url: "/phone_configuration",
-            templateUrl: "app/views/company/phone_configuration.html",
+            templateUrl: "app/views/ipPhone/phone_configuration.html",
             controller: "phone_configuration_controller",
             data: {
                 requireLogin: true
@@ -127,6 +127,20 @@ opConsoleApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$
             url: "/agent-summery",
             controller: "agentStatusEventController",
             templateUrl: "app/views/reports/agentStatusEventList.html"
+        }).state('op-console.ipPhone', {
+            url: "/ip-phone-list",
+            templateUrl: "app/views/ipPhone/ipPhone.html",
+            controller: "ipPhoneController",
+            data: {
+                requireLogin: true
+            }
+        }).state('op-console.ipPhoneUpload', {
+            url: "/ip-phone-upload",
+            templateUrl: "app/views/ipPhone/ipPhoneUpload.html",
+            controller: "ipPhoneController",
+            data: {
+                requireLogin: true
+            }
         })
     }], function () {
 

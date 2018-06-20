@@ -81,8 +81,14 @@ opConsoleApp.controller('consoleCtrl', function ($scope, $filter, $state, ngNoti
             case 'createCompany':
                 $state.go('op-console.create-company');
                 break;
-                case 'phone_configuration':
+            case 'phone_configuration':
                 $state.go('op-console.phone_configuration');
+                break;
+            case 'ipPhone':
+                $state.go('op-console.ipPhone');
+                break;
+            case 'ipPhoneUpload':
+                $state.go('op-console.ipPhoneUpload');
                 break;
         }
     };
@@ -260,7 +266,6 @@ opConsoleApp.controller('consoleCtrl', function ($scope, $filter, $state, ngNoti
         });
     }
 });
-
 
 
 opConsoleApp.directive('datepicker', function () {
