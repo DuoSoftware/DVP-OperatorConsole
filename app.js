@@ -132,6 +132,14 @@ opConsoleApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$
                 requireLogin:true,
                 navigation: "AGENTSUMMERY"
             }
+        }).state('op-console.create-report-user', {
+            url: "/user-create",
+            controller: "usercreationController",
+            templateUrl: "app/views/user/userList.html",
+            data :{
+                requireLogin:true,
+                navigation: "AGENTSUMMERY"
+            }
         })
     }], function () {
 
@@ -140,7 +148,7 @@ opConsoleApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$
 
 //app base URL
 var baseUrls = {
-    'userServiceBaseUrl': 'http://userservice.app1.veery.cloud/DVP/API/1.0.0.0/', //userservice.app.veery.cloud
+    'userServiceBaseUrl': 'http://127.0.0.1:3638/DVP/API/1.0.0.0/', //userservice.app.veery.cloud
     'monitorServerUrl': 'http://monitorrestapi.app.veery.cloud/DVP/API/1.0.0.0/MonitorRestAPI/',
     'sipUserEndpointService': 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/',
     'userServiceAuthUrl': 'http://userservice.app1.veery.cloud/',
