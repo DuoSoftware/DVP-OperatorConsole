@@ -17,6 +17,9 @@
         service.UpdateMyPwd = UpdateMyPwd;
         service.forgetPassword = forgetPassword;
         service.resetPassword = resetPassword;
+        service.getUserNavigation = getUserNavigation;
+        service.getNavigationAccess = getNavigationAccess;
+
         return service;
         var mynavigations = {};
 
@@ -164,6 +167,41 @@
                 callback(data.IsSuccess);
             });
         };
+
+        function getUserNavigation(callback) {
+            $http.get(baseUrls.userServiceBaseUrl + "MyAppScopes/MyAppScopes/OPERATOR_CONSOLE").success(function (data, status, headers, config) {
+                console.log(data);
+                if (data.IsSuccess && data.Result && data.Result.length > 0) {
+                    //navigations = data.Result[0];
+
+                    localStorageService.set("@navigations", data.Result[0]);
+                    callback(true);
+                } else {
+                    callback(false);
+                }
+
+            }).error(function (data, status, headers, config) {
+                callback(false);
+            });
+        }
+
+        //check my navigation
+        //is can access
+        function getNavigationAccess(callback) {
+            mynavigations = {};
+            $http.get(baseUrls.userServiceBaseUrl + "MyAppScopes/MyAppScopes/OPERATOR_CONSOLE").success(function (data, status, headers, config) {
+                if (data.IsSuccess && data.Result && data.Result.length > 0) {
+                    data.Result[0].menus.forEach(function (item) {
+                        mynavigations[item.menuItem] = true;
+                    });
+                }
+                callback(mynavigations);
+            }).error(function (data, status, headers, config) {
+                callback(mynavigations);
+            });
+        };
+
+
     }
 })();
 

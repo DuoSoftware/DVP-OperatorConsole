@@ -90,6 +90,9 @@ opConsoleApp.controller('consoleCtrl', function ($scope, $filter, $state, ngNoti
             case 'ipPhoneUpload':
                 $state.go('op-console.ipPhoneUpload');
                 break;
+            case 'createReportUser':
+                $state.go('op-console.create-report-user');
+                break;
         }
     };
 
@@ -264,7 +267,12 @@ opConsoleApp.controller('consoleCtrl', function ($scope, $filter, $state, ngNoti
             console.log(err);
             $scope.showAlert("Validate Token", "error", "Fail To Validate Token or Communication Error.");
         });
-    }
+    };
+
+    loginService.getNavigationAccess(function (result) {
+        $scope.accessNavigation = result;
+
+    });
 });
 
 
