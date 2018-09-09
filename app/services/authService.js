@@ -1,9 +1,7 @@
 /**
  * Created by Rajinda on 4/27/2016.
  */
-
-angular.module('authServiceModule', [])
-    .service('authService', function (localStorageService, jwtHelper, $auth, $state,$location) {
+opConsoleApp.service('authService', function (localStorageService, jwtHelper, $auth, $state,$location) {
 
 
             this.GetToken = function () {

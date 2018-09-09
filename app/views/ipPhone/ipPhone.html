@@ -1,0 +1,115 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2><i class="fa fa-align-left"></i> IP Phone List
+                    <small>.</small>
+                </h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li title="Reload">
+                            <button class="btn btn-orange btn-orange-op"
+                                    ng-click="phonesearchByCompanyName();">
+                                By Name
+                            </button>
+                        </li>
+                    </ul>
+                    <li >
+                        <!--<select title="Company's" class="select2_single form-control col-md-3 col-sm-3 col-xs-12"
+                                tabindex="-1"
+                                id="company"
+                                name="company" ng-model="clientCompany">
+                            <option ng-repeat="comp in companyList"
+                                    value="{{comp}}">{{comp.companyName}}
+                            </option>
+                        </select>-->
+
+                        <select class="select2_single form-control col-md-3 col-sm-3 col-xs-12" ng-model="clientCompany"  ng-options="x.companyName for x in companyList| orderBy : 'companyName'">
+                        </select>
+                    </li>
+                </ul>
+
+                <div class="clearfix"></div>
+            </div>
+
+            <div class="x_content">
+                <div class="row">
+
+                    <div class="row">
+                        <div class="x_panel">
+                            <div class="col-lg-12 col-xs-12">
+                                <div class="tbl-header">
+                                    <!--<div class="col-lg-2 col-xs-3">-->
+
+                                    <!--</div>-->
+                                    <div class="col-lg-3 col-xs-3">
+                                        <div class="table-header-txt">
+                                            Company
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-xs-4">
+                                        <div class="table-header-txt tbl-header-left-boarder">
+                                            MAC
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-xs-3">
+                                        <div class="table-header-txt tbl-header-left-boarder">
+                                            Manufacturer
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-xs-3">
+                                        <div class="table-header-txt tbl-header-left-boarder">
+                                            Model
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div ng-if="isLoadingCompany"
+                                 class="loading-current-view" style="background: transparent;">
+                                <!--  loader  -->
+                                <svg class="circular">
+                                    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2"></circle>
+                                </svg>
+                                <div class="loader-section"></div>
+                            </div>
+
+                            <div class="table-body">
+                                <!--- data loading -->
+                                <div class="col-lg-12 col-xs-12">
+                                    <div class="table-row animated fadeIn"
+                                         ng-click="goToCompany(company)"
+                                         ng-repeat="company in companyFilteredList ">
+                                        <div class="col-lg-3 col-xs-3">
+                                            <div class="table-body-row">
+                                                {{company.company}}
+
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-xs-4">
+                                            <div class="table-body-row">
+                                                {{company.mac}}
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-xs-4">
+                                            <div class="table-body-row">
+                                                {{company.manufacturer}}
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-xs-4">
+                                            <div class="table-body-row">
+                                                {{company.model}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
