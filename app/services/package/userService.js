@@ -143,6 +143,16 @@
             });
         };
 
+        //---------------------------------Digin Data----------------------------------
+        var getDiginTemplates = function () {
+            return $http({
+                method: 'GET',
+                //url: baseUrls.diginEngineBaseUrl + 'get_all_components'
+                url: baseUrls.diginEngineBaseUrl + 'components.json'
+            }).then(function (resp) {
+                return resp.data;
+            });
+        };
 
         return {
             GetAllPackages: getAllPackages,
@@ -157,7 +167,8 @@
             GetCompanyData: getCompanyData,
             AssignPackage: assignPackage,
             AssignUnit: assignUnit,
-            GetAllSystemTask: getAllSystemTask
+            GetAllSystemTask: getAllSystemTask,
+            getDiginTemplates: getDiginTemplates
         }
     });
 }());
