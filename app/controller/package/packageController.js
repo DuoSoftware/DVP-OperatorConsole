@@ -191,7 +191,9 @@
                     ]
                 }
             ],
-            diginTemplates: []
+            sharedResources: {
+                "DIGIN_CONSOLE": []
+            }
         };
 
 
@@ -415,7 +417,9 @@
                         ]
                     }
                 ],
-                diginTemplates: []
+                sharedResources: {
+                    "DIGIN_CONSOLE": []
+                }
             };
         };
 
@@ -425,30 +429,10 @@
         };
 
         $scope.editPackageData = function (packageData) {
-
-            
-
-            console.log('loaded package', $scope.packageObj);
-            console.log('new package',packageData);
             //$scope.packageObj = packageData;
             $scope.packageObj = angular.merge(packageData, $scope.packageObj);
-
-            $scope.packageObj.diginTemplates.map(function(tmpl){
-                delete tmpl._id;
-                return tmpl;
-            });
-            // $scope.packageObj.diginTemplates = [
-            //     {
-            //         "compID": xxxx,
-            //         "compName": "dd",
-            //         "compType": "dashboard"
-            //     }
-            // ];
-
-
             $scope.onClickCollapsed('Update');
         };
-
 
         //-----------------External methods------------------------
         $scope.loadPackageDetails = function () {
@@ -490,7 +474,6 @@
                                 'compType': component['compType']
                             });
                         });
-                        console.log($scope.diginTemplates);
                     }else{
                         $scope.notify('Load Digin Templates Failed', 'error');
                     }
@@ -505,8 +488,6 @@
         $scope.loadDiginTemplates();
 
         $scope.savePackage = function () {
-            // console.log($scope.packageObj);
-            // return false;
             try {
                 var adminAccess = $scope.packageObj.consoleAccessLimit[0].accessLimit? $scope.packageObj.consoleAccessLimit[0].accessLimit : 0;
                 var supervisorAccess = $scope.packageObj.consoleAccessLimit[1].accessLimit? $scope.packageObj.consoleAccessLimit[1].accessLimit : 0;

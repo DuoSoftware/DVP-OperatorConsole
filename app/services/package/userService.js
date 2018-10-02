@@ -147,8 +147,7 @@
         var getDiginTemplates = function () {
             return $http({
                 method: 'GET',
-                //url: baseUrls.diginEngineBaseUrl + 'get_all_components'
-                url: baseUrls.diginEngineBaseUrl + 'components.json'
+                url: baseUrls.diginEngineBaseUrl + 'get_all_components'
             }).then(function (resp) {
                 return resp.data;
             });
