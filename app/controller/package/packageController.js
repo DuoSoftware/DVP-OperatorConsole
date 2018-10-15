@@ -14,7 +14,6 @@
         $scope.tempSpaceLimit = {};
         $scope.packageDetails = [];
         $scope.systemTask = [];
-        $scope.diginTemplates = [];
         $scope.searchCriteria = "";
         $scope.packageTitle = 'Create New';
 
@@ -190,10 +189,7 @@
                         }
                     ]
                 }
-            ],
-            sharedResources: {
-                "DIGIN_CONSOLE": []
-            }
+            ]
         };
 
 
@@ -416,10 +412,7 @@
                             }
                         ]
                     }
-                ],
-                sharedResources: {
-                    "DIGIN_CONSOLE": []
-                }
+                ]
             };
         };
 
@@ -429,10 +422,10 @@
         };
 
         $scope.editPackageData = function (packageData) {
-            //$scope.packageObj = packageData;
-            $scope.packageObj = angular.merge(packageData, $scope.packageObj);
+            $scope.packageObj = packageData;
             $scope.onClickCollapsed('Update');
         };
+
 
         //-----------------External methods------------------------
         $scope.loadPackageDetails = function () {
@@ -463,29 +456,8 @@
              }
          };
 
-        $scope.loadDiginTemplates = function () {
-            try{
-                userService.getDiginTemplates().then(function (response) {
-                    if(response && response.Is_Success){
-                        response.Result.map(function(component){
-                            $scope.diginTemplates.push({
-                                'compID': component['compID'],
-                                'compName': component['compName'],
-                                'compType': component['compType']
-                            });
-                        });
-                    }else{
-                        $scope.notify('Load Digin Templates Failed', 'error');
-                    }
-                });
-            }catch(ex){
-                $scope.notify('Load Digin Templates Failed', 'error');
-            }
-        };
-
         $scope.loadPackageDetails();
         $scope.loadTaskDetails();
-        $scope.loadDiginTemplates();
 
         $scope.savePackage = function () {
             try {
