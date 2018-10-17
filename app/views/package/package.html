@@ -123,8 +123,9 @@
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Digin Templates</label>
                             <div class="col-md-4 col-sm-4 col-xs-12">
                                     <div class="checkbox" ng-repeat="d_template in diginTemplates">
-                                        <input type="checkbox" checklist-model="packageObj.sharedResources['DIGIN_CONSOLE']" checklist-value="d_template">
+                                        <label><input type="checkbox" checklist-model="packageObj.sharedResources['DIGIN_CONSOLE']" checklist-value="d_template">
                                         {{d_template.compName}}
+                                    </label>
                                     </div>
                             </div>
                         </div>
