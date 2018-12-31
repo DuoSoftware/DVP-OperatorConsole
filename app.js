@@ -157,7 +157,7 @@ opConsoleApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$
 
 //app base URL
 var baseUrls = {
-    'userServiceBaseUrl': 'http://127.0.0.1:3638/DVP/API/1.0.0.0/', //userservice.app.veery.cloud
+    'userServiceBaseUrl': 'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/', //userservice.app.veery.cloud
     'monitorServerUrl': 'http://monitorrestapi.app.veery.cloud/DVP/API/1.0.0.0/MonitorRestAPI/',
     'sipUserEndpointService': 'http://localhost:8086/DVP/API/1.0.0.0/',// 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/',
     'userServiceAuthUrl': 'http://userservice.app1.veery.cloud/',
@@ -171,7 +171,8 @@ var baseUrls = {
     'notification': 'http://notificationservice.app.veery.cloud',
     'authUrl': 'http://userservice.app1.veery.cloud',
     'cdrProcessor': 'http://cdrprocessor.app.veery.cloud/DVP/API/1.0.0.0/CallCDR/', //cdrprocessor.app.veery.cloud
-    'voxboneApi': 'http://localhost:8832/DVP/API/1.0.0.0/voxbone/'
+    'voxboneApi': 'http://localhost:8832/DVP/API/1.0.0.0/voxbone/',
+    'diginEngineBaseUrl': 'http://poc-digin-new/DigInEngine/'
 };
 
 opConsoleApp.constant('moment', moment);
