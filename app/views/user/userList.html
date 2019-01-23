@@ -1,0 +1,180 @@
+<div>
+
+    <!--page title -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="page-title">
+                <div class="title_left">
+                    <h3>Create Report User</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="clearfix"></div>
+
+    <div class="row" ng-hide="isCollapsed">
+        <div class="ln_solid"></div>
+        <div class="col-lg-12 col-sm-12 col-xs-12">
+
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>{{packageTitle}} User</h2>
+
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <br>
+
+                    <form id="pMainForm" class="form-horizontal form-label-left input_mask">
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Title</label>
+
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <select class="form-control" tabindex="-1" aria-hidden="true"
+                                        placeholder="Title" name="title" ng-model="userObj.title">
+                                    <option value="mr">Mr</option>
+                                    <option value="mrs">Mrs</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">First Name</label>
+
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <input type="text" class="form-control" ng-model="userObj.firstname"
+                                       placeholder="First Name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Last Name</label>
+
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <input type="text" class="form-control" ng-model="userObj.lastname"
+                                       placeholder="Last Name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Email </label>
+
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <input type="text" class="form-control" ng-model="userObj.mail"
+                                       placeholder="E-Mail">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Password</label>
+
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <input type="password" class="form-control" ng-model="userObj.password"
+                                       placeholder="Password">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Phone</label>
+
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <input type="text" class="form-control "
+                                       placeholder="Phone Number"
+                                       ng-model="userObj.phone">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">NickName</label>
+
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <input type="text" class="form-control "
+                                       placeholder="Nick Name"
+                                       ng-model="newUser.name">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+                                <div class="col-md-4 col-sm-4 col-xs-12"></div>
+                                <div class="col-md-4 col-sm-4 col-xs-12">
+                                    <button type="submit" class="btn btn-success" ng-click="saveReportUser()">Save</button>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="clearfix"></div>
+    <div class="row" ng-show="isCollapsed">
+
+        <div class="ln_solid"></div>
+        <div class="col-md-3 col-sm-3 col-xs-12 form-group pull-right top_search">
+            <div class="input-group">
+                <input type="text" class="form-control" ng-model="searchCriteria" placeholder="Search for...">
+                <span class="input-group-btn">
+                      <button class="btn btn-default" type="button">Go!</button>
+                    </span>
+            </div>
+        </div>
+        <div class="col-lg-12 col-sm-12 col-xs-12">
+
+            <div class="col-md-3 col-sm-3 col-xs-12 widget_tally_box"
+                 ng-repeat="reportUser in reportUsers | filterBy: ['username']: searchCriteria">
+                <!--<div class="x_panel fixed_height_390 widget-package-manager">
+                    <div class="x_title">
+                        <h2>{{package.navigationType}} - {{package.packageType}}</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li><a class="collapse-link" ng-click="editPackageData(package)"><i
+                                    class="fa fa-edit edit-package"></i></a>
+                            </li>
+                            <li><a class="collapse-link"><i class="fa fa-trash-o remove-package"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+
+                        <div class="flex">
+                            <ul class="list-inline widget_profile_box">
+                                <li>
+                                    <h2><b>{{package.price}}</b></h2>
+                                    <span>Monthly</span>
+                                </li>
+                                <li>
+                                    <img ng-src="assets/img/ui-icon-1/dollar.svg" class="img-circle profile_img">
+                                </li>
+                                <li>
+                                    <h2><b>{{package.setupFee}}</b></h2>
+                                    <span>Setup</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <h2 class="name"><b>{{package.packageName}}</b></h2>
+
+                        <div class="flex">
+                            <ul class="list-inline count2">
+                                <li ng-repeat="consoleAccess in package.consoleAccessLimit">
+                                    <h3>{{consoleAccess.accessLimit}}</h3>
+                                    <span>{{consoleAccess.accessType.toUpperCase()}}</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <p>
+                            {{package.description}}
+                        </p>
+                    </div>
+                </div>-->
+
+                <div class="row">
+                    <h3>{{reportUser.firstname}} {{reportUser.lastname}}</h3>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

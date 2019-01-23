@@ -1,0 +1,117 @@
+<div ng-controller="voxboneNumberConfigCtrl">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="page-title">
+                <div class="title_left">
+                    <h3>Voxbone Number Configuration</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="clearfix"></div>
+
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <!--<div class="x_panel">-->
+            <!--<div class="x_content">-->
+
+                <!--<div class="col-xs-2">-->
+                    <!--&lt;!&ndash; required for floating &ndash;&gt;-->
+                    <!--&lt;!&ndash; Nav tabs &ndash;&gt;-->
+                    <!--<ul class="nav nav-tabs tabs-left">-->
+                        <!--<li ng-class="'active'">-->
+                            <!--<a href="#requested" data-toggle="tab">Requested-->
+                                <!--<span class="badge bg-red ng-binding">{{RequestCounts.requested}}</span>-->
+                            <!--</a>-->
+                        <!--</li>-->
+                        <!--<li>-->
+                            <!--<a href="#processing" data-toggle="tab">Processing-->
+                                <!--<span class="badge bg-blue ng-binding">{{RequestCounts.processing}}</span>-->
+                            <!--</a>-->
+                        <!--</li>-->
+                        <!--<li>-->
+                            <!--<a href="#completed" data-toggle="tab">Completed-->
+                                <!--<span class="badge bg-green ng-binding">{{RequestCounts.completed}}</span>-->
+                            <!--</a>-->
+                        <!--</li>-->
+                    <!--</ul>-->
+                <!--</div>-->
+
+                <!--<div class="col-xs-10">-->
+                    <!--&lt;!&ndash; Tab panes &ndash;&gt;-->
+                    <!--<div class="tab-content">-->
+                        <!--<div class="tab-pane active" id="requested">-->
+                            <!--<p class="lead">Home tab</p>-->
+                            <!--<p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher-->
+                                <!--synth. Cosby sweater eu banh mi, qui irure terr.</p>-->
+                        <!--</div>-->
+                        <!--<div class="tab-pane" id="processing">Profile Tab.</div>-->
+                        <!--<div class="tab-pane" id="completed">Messages Tab.</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+                <!--<div class="clearfix"></div>-->
+
+            <!--</div>-->
+
+
+
+
+
+
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 bhoechie-tab-container">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 bhoechie-tab-menu">
+                            <div class="list-group">
+                                <a href="#" class="list-group-item active text-center" ng-click="loadVoxRequestByStatus('requested')">
+                                    <h4 class="badge bg-red ng-binding">{{RequestCounts.requested}}</h4><br/>Requested
+                                </a>
+                                <a href="#" class="list-group-item text-center" ng-click="loadVoxRequestByStatus('processing')">
+                                    <h4 class="badge bg-blue ng-binding">{{RequestCounts.processing}}</h4><br/>Processing
+                                </a>
+                                <a href="#" class="list-group-item text-center" ng-click="loadVoxRequestByStatus('completed')">
+                                    <h4 class="badge bg-green ng-binding">{{RequestCounts.completed}}</h4><br/>Completed
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 bhoechie-tab">
+                            <!-- flight section -->
+                            <div class="bhoechie-tab-content active">
+                                <div ng-include="'app/views/voxbone-number-config/template/numberList.html'"></div>
+                            </div>
+                            <!-- train section -->
+                            <div class="bhoechie-tab-content">
+                                <div ng-include="'app/views/voxbone-number-config/template/numberList.html'"></div>
+                            </div>
+
+                            <!-- hotel search -->
+                            <div class="bhoechie-tab-content">
+                                <div ng-include="'app/views/voxbone-number-config/template/numberList.html'"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        <!--</div>-->
+    </div>
+</div>
+
+
+
+<script>
+    $(document).ready(function() {
+        $("div.bhoechie-tab-menu>div.list-group>a").click(function(e) {
+            e.preventDefault();
+            $(this).siblings('a.active').removeClass("active");
+            $(this).addClass("active");
+            var index = $(this).index();
+            $("div.bhoechie-tab>div.bhoechie-tab-content").removeClass("active");
+            $("div.bhoechie-tab>div.bhoechie-tab-content").eq(index).addClass("active");
+        });
+    });
+</script>

@@ -3,7 +3,7 @@
  */
 
 
-opConsoleApp.controller("agentProductivityController", function ($scope, $anchorScroll, $filter,$q, ngNotify,uiGridConstants, resourceProductivityService) {
+opConsoleApp.controller("agentProductivityController", function ($scope, $anchorScroll, $filter, $q, ngNotify, uiGridConstants, resourceProductivityService) {
     $anchorScroll();
 
     $scope.showAlert = function (title, type, content) {
@@ -15,13 +15,13 @@ opConsoleApp.controller("agentProductivityController", function ($scope, $anchor
         });
     };
 
-    $scope.today = function() {
+    $scope.today = function () {
         $scope.endDate = new Date();
         $scope.startDate = new Date();
     };
     $scope.today();
 
-    $scope.clear = function() {
+    $scope.clear = function () {
         $scope.startDate = null;
     };
 
@@ -31,7 +31,7 @@ opConsoleApp.controller("agentProductivityController", function ($scope, $anchor
         startingDay: 1
     };
 
-    $scope.openStartDate = function() {
+    $scope.openStartDate = function () {
         $scope.popupStartDate.opened = true;
         $scope.dateOptionsEndDate.minDate = $scope.startDate;
     };
@@ -48,7 +48,7 @@ opConsoleApp.controller("agentProductivityController", function ($scope, $anchor
         startingDay: 1
     };
 
-    $scope.openEndDate = function() {
+    $scope.openEndDate = function () {
         $scope.popupEndDate.opened = true;
         $scope.dateOptionsEndDate.minDate = $scope.startDate;
     };
@@ -107,16 +107,34 @@ opConsoleApp.controller("agentProductivityController", function ($scope, $anchor
         modifierKeysToMultiSelect: false,
         noUnselect: false,
         columnDefs: [
+             {
+                enableFiltering: true,
+                width: '60',
+                name: 'Company',
+                field: 'Company',
+                headerTooltip: 'Company',
+                cellClass: 'table-number'
+            },
             {
-                enableFiltering: false,width: '60', name: 'ID', field: 'Agent', headerTooltip: 'ID',cellClass: 'table-number'
-            },{
-                enableFiltering: true,width: '60', name: 'Company', field: 'Company', headerTooltip: 'Company',cellClass: 'table-number'
+                enableFiltering: true,
+                width: '150',
+                name: 'CompanyName',
+                field: 'CompanyName',
+                headerTooltip: 'Company Name'
+            },
+            {
+                enableFiltering: false,
+                width: '60',
+                name: 'AgentId',
+                field: 'Agent',
+                headerTooltip: 'Agent ID',
+                cellClass: 'table-number'
             },
             {
                 enableFiltering: true,
                 width: '150', name: 'AgentName', field: 'AgentName', headerTooltip: 'Agent Name', sort: {
-                direction: uiGridConstants.ASC
-            }
+                    direction: uiGridConstants.ASC
+                }
             },
             {
                 enableFiltering: false,
@@ -126,7 +144,7 @@ opConsoleApp.controller("agentProductivityController", function ($scope, $anchor
                 headerTooltip: 'Date',
                 cellClass: 'table-time',
                 cellTemplate: "<div>{{row.entity.Date| date:'MM/dd/yyyy'}}</div>"
-            },{
+            }, {
                 enableFiltering: false,
                 width: '150',
                 name: 'LoginTime',
@@ -348,7 +366,7 @@ opConsoleApp.controller("agentProductivityController", function ($scope, $anchor
         var momentTz = moment.parseZone(new Date()).format('Z');
         momentTz = momentTz.replace("+", "%2B");
 
-        var queryStartDate = $filter('date')($scope.startDate, "yyyy-MM-dd")  + ' 00:00:00' + momentTz;
+        var queryStartDate = $filter('date')($scope.startDate, "yyyy-MM-dd") + ' 00:00:00' + momentTz;
         var queryEndDate = $filter('date')($scope.endDate, "yyyy-MM-dd") + ' 23:59:59' + momentTz;
         resourceProductivityService.ConsolidatedDailySummary(queryStartDate, queryEndDate, resId).then(function (response) {
             if (response) {
@@ -382,10 +400,10 @@ opConsoleApp.controller("agentProductivityController", function ($scope, $anchor
 
                 $scope.uniqAgentNameWithResourceIds = {};
                 $scope.comapnyWiseAgents = response.map(function (item) {
-                    if($scope.uniqAgentNameWithResourceIds[item.ResourceName]){
+                    if ($scope.uniqAgentNameWithResourceIds[item.ResourceName]) {
                         $scope.uniqAgentNameWithResourceIds[item.ResourceName].ResourceIds.push(item.ResourceId.toString())
                     }
-                    else{
+                    else {
                         $scope.uniqAgentNameWithResourceIds[item.ResourceName] = {
                             ResourceIds: [item.ResourceId.toString()],
                             ResourceName: item.ResourceName
@@ -400,13 +418,13 @@ opConsoleApp.controller("agentProductivityController", function ($scope, $anchor
                         ResourceName: item.ResourceName
                     };
                 });
-/*
-                $scope.Agents = response.map(function (item) {
-                    return {
-                        ResourceId: item.ResourceId.toString(),
-                        ResourceName: item.ResourceName
-                    }
-                });*/
+                /*
+                                $scope.Agents = response.map(function (item) {
+                                    return {
+                                        ResourceId: item.ResourceId.toString(),
+                                        ResourceName: item.ResourceName
+                                    }
+                                });*/
                 $scope.Agents.splice(0, 0, {
                     ResourceId: "-999",
                     ResourceName: "Select"
@@ -475,7 +493,6 @@ opConsoleApp.controller("agentProductivityController", function ($scope, $anchor
         }
 
         resourceProductivityService.ConsolidatedDailySummary(queryStartDate, queryEndDate, resId).then(function (response) {
-
 
 
             if (!response) {

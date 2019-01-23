@@ -174,6 +174,32 @@
             })
         };
 
+        var addReportUser = function (userObj) {
+
+            var jsonStr = JSON.stringify(userObj);
+            return $http({
+                method: 'POST',
+                url: baseUrls.userServiceBaseUrl + 'User',
+                data: jsonStr
+            }).then(function (resp) {
+                return resp.data;
+            })
+        };
+
+
+        var AddSelectedNavigationToUser = function (userName,consoleName,navigationData) {
+            return $http({
+                method: 'put',
+                url: baseUrls.userServiceBaseUrl + "ReportUser/" + userName + "/Console/" + consoleName + "/Navigation",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: navigationData
+            }).then(function (response) {
+                return response.data;
+            });
+        };
+
 
         return {
             getProfileByName: getProfileByName,
@@ -192,7 +218,9 @@
             updateMyProfile: updateMyProfile,
             getMyRatings: getMyRatings,
             getOrganization: getOrganization,
-            getMyOrganization: getMyOrganization
+            getMyOrganization: getMyOrganization,
+            addReportUser: addReportUser,
+            AddSelectedNavigationToUser: AddSelectedNavigationToUser
 
         };
     };

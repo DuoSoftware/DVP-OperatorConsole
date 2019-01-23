@@ -74,6 +74,8 @@
                                     <option ng-if="packageObj.packageType !== 'BASIC'" value="PREMIUM-01">Premium-01</option>
                                     <option ng-if="packageObj.packageType !== 'BASIC'" value="PREMIUM-02">Premium-02</option>
                                     <option ng-if="packageObj.packageType !== 'BASIC'" value="PABX">Pabx</option>
+                                    <option ng-if="packageObj.packageType !== 'BASIC'" value="CALLCENTER">Callcenter</option>
+                                    <option ng-if="packageObj.packageType !== 'BASIC'" value="CHATBOT">Chat-bot</option>
                                 </select>
                             </div>
                         </div>
@@ -111,6 +113,19 @@
                                     <input type="checkbox" checklist-model="packageObj.consoles" id="inlineCheckboxA"
                                            value="AGENT_CONSOLE"> Agent Console
                                 </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" checklist-model="packageObj.consoles" id="inlineCheckboxA"
+                                           value="BOT_CONSOLE"> Bot Console
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-if="packageObj.packageType=='DIGIN'">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Digin Templates</label>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                    <div class="checkbox" ng-repeat="d_template in diginTemplates">
+                                        <input type="checkbox" checklist-model="packageObj.sharedResources['DIGIN_CONSOLE']" checklist-value="d_template">
+                                        {{d_template.compName}}
+                                    </div>
                             </div>
                         </div>
                         <div class="form-group">

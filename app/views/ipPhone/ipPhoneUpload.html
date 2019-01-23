@@ -1,0 +1,203 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2><i class="fa fa-upload"></i> Upload IP Phone
+
+                </h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li title="Reload">
+                            <button class="btn btn-orange btn-orange-op"
+                                    ng-click="phonesearchByCompanyName();">
+                                By Name
+                            </button>
+                        </li>
+                    </ul>
+                    <li>
+
+                        <select class="select2_single form-control col-md-3 col-sm-3 col-xs-12" ng-model="clientCompany"
+
+                                ng-options="x.companyName for x in companyList| orderBy : 'companyName'">
+                        </select>
+                    </li>
+                </ul>
+
+                <div class="clearfix"></div>
+            </div>
+
+            <div class="x_content">
+                <div class="row">
+                    <div class="row">
+                        <div class="x_panel">
+
+                            <div ng-if="isLoadingCompany"
+                                 class="loading-current-view" style="background: transparent;">
+                                <!--  loader  -->
+                                <svg class="circular">
+                                    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2"></circle>
+                                </svg>
+                                <div class="loader-section"></div>
+                            </div>
+
+                            <div style="padding:1%">
+                                <form name="outerForm" class="tab-form-demo">
+                                    <uib-tabset active="activePill">
+                                        <uib-tab index="0" heading="One By One">
+                                            <table class="table table-striped table-bordered">
+                                                <thead>
+                                                <tr>
+                                                    <th><input type="checkbox" ng-model="selectedAll"
+                                                               ng-click="checkAll()"/></th>
+                                                    <th>MAC</th>
+                                                    <th>Manufacturer</th>
+                                                    <th>Model</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr ng-repeat="phoneDetail in phoneDetails track by $index">
+                                                    <td>
+                                                        <input type="checkbox" ng-model="phoneDetail.selected"
+                                                               ng-click="selected()"/>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control"
+                                                               ng-model="phoneDetail.mac"
+                                                               required/>
+                                                    </td>
+                                                    <td>
+                                                        <select class="select2_single form-control col-md-3 col-sm-3 col-xs-12"
+                                                                ng-options="p.make as p.make for p in manufacturers"
+                                                                ng-model="phoneDetail.make"></select>
+
+
+                                                    </td>
+                                                    <td>
+                                                        <select class="select2_single form-control col-md-3 col-sm-3 col-xs-12"
+                                                                ng-options="p for p in models[phoneDetail.make]"
+                                                                ng-model="phoneDetail.model"></select>
+
+                                                    </td>
+
+                                                    <td ng-if="phoneDetail.mac"
+                                                        ng-show="$index === phoneDetails.length - 1">
+                                                        <input style="width: 25px;height: 25px; background-image: url('assets/img/ui-icon-1/blue-plu.png');  background-repeat:no-repe;"
+                                                               type="button" class="form-control" ng-click="addNew()"/>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                            <div class="form-group">
+                                                <button ng-hide="!phoneDetails.length"
+                                                        type="button"
+                                                        class="btn btn-danger pull-right"
+                                                        ng-click="remove()"
+                                                        ng-disabled="!isCheckList">Remove
+                                                </button>
+                                                <button type="submit" class="btn btn-primary addnew pull-left"
+                                                        ng-click="submit()"> Submit
+                                                </button>
+                                            </div>
+                                        </uib-tab>
+                                        <uib-tab index="1" heading="Bulk" ng-click="bulk()">
+                                            <div class="row">
+                                                <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
+                                                    <div class="x_panel">
+
+
+                                                        <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                                            <input style="padding-top: 10px; padding-bottom: 10px"
+                                                                   accept=".csv"
+                                                                   type="file"
+                                                                   custom-on-change="uploadFile"
+                                                                   class="file-chooser"
+                                                                   id="files123"
+                                                                   name="files[]"/>
+                                                        </div>
+                                                        <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                                            <ul class="nav navbar-right panel_toolbox">
+                                                                <li ng-click="resetUploader(campaingForm);" title="Reset" ><a class="close-link" ng-click="resetUploader(campaingForm);"><i
+                                                                        class="fa fa-refresh"></i></a>
+                                                                </li>
+
+                                                            </ul>
+                                                        </div>
+                                                        <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
+
+                                                            <div ui-grid="gridOptions" ui-grid-importer class="grid" ui-grid-move-columns ui-grid-resize-columns ui-grid-auto-resize ui-grid-pinning
+                                                                 ng-style="getTableHeight()"></div>
+
+                                                            <div>
+                                                                <label>rows: {{gridApi.grid.getVisibleRows().length}}</label>
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="col-md-4 col-sm-4 col-xs-4 form-group has-feedback"
+                                                             ng-class="{ 'has-error' : campaingForm.columnName.$invalid && !campaingForm.columnName.$pristine }">
+                                                            <select id="MACcolumnName" class="form-control has-feedback-left"
+                                                                    ng-model="ip_phone.mac"
+                                                                    ng-model-options="{trackBy: '$value'}"  required>
+                                                                <option value="" disabled selected>Select MAC Column
+                                                                </option>
+                                                                <option ng-repeat="hData in headerData"
+                                                                        value="{{hData.name}}">
+                                                                    {{hData.name}}
+                                                                </option>
+                                                            </select>
+                                                            <p ng-show="campaingForm.columnName.$invalid && !campaingForm.columnName.$pristine"
+                                                               class="help-block">Column Name is required.</p>
+                                                        </div>
+
+                                                        <div class="col-md-4 col-sm-4 col-xs-4 form-group has-feedback">
+                                                            <select class="select2_single form-control col-md-3 col-sm-3 col-xs-12"
+                                                                    ng-options="p.make as p.make for p in manufacturers"
+                                                                    ng-model="ip_phone.manufacturer"></select>
+                                                        </div>
+
+                                                        <div class="col-md-4 col-sm-4 col-xs-4 form-group has-feedback">
+                                                            <select class="select2_single form-control col-md-3 col-sm-3 col-xs-12"
+                                                                    ng-options="p for p in models[ip_phone.manufacturer]"
+                                                                    ng-model="ip_phone.model"></select>
+
+                                                        </div>
+
+
+                                                    </div>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
+                                                        <button ng-show="isUploading" disabled type="button" class="btn btn-green btn-block">
+                                                            PLEASE WAIT...
+                                                        </button>
+                                                        <button ng-hide="isUploading" style="padding-top: 10px; padding-bottom: 10px"
+                                                                ng-hide="!phoneDetails.length"
+                                                                type="button"
+                                                                class="btn btn-primary pull-right"
+                                                                ng-click="submitbulk(ip_phone)"
+                                                                ng-disabled="isCheckList">Submit
+                                                        </button>
+                                                    </div>
+
+
+
+
+
+                                                    </div>
+
+
+                                                </div>
+
+                                            </div>
+
+                                        </uib-tab>
+                                    </uib-tabset>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

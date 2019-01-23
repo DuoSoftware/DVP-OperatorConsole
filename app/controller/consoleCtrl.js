@@ -66,6 +66,9 @@ opConsoleApp.controller('consoleCtrl', function ($scope, $filter, $state, ngNoti
             case 'trunkConfiguration':
                 $state.go('op-console.trunk-configuration');
                 break;
+            case 'voxboneNumberConfiguration':
+                $state.go('op-console.voxbone-number-configuration');
+                break;
             case 'companyInfo':
                 $state.go('op-console.all-company-information');
                 break;
@@ -77,6 +80,18 @@ opConsoleApp.controller('consoleCtrl', function ($scope, $filter, $state, ngNoti
                 break;
             case 'createCompany':
                 $state.go('op-console.create-company');
+                break;
+            case 'phone_configuration':
+                $state.go('op-console.phone_configuration');
+                break;
+            case 'ipPhone':
+                $state.go('op-console.ipPhone');
+                break;
+            case 'ipPhoneUpload':
+                $state.go('op-console.ipPhoneUpload');
+                break;
+            case 'createReportUser':
+                $state.go('op-console.create-report-user');
                 break;
         }
     };
@@ -252,9 +267,13 @@ opConsoleApp.controller('consoleCtrl', function ($scope, $filter, $state, ngNoti
             console.log(err);
             $scope.showAlert("Validate Token", "error", "Fail To Validate Token or Communication Error.");
         });
-    }
-});
+    };
 
+    loginService.getNavigationAccess(function (result) {
+        $scope.accessNavigation = result;
+
+    });
+});
 
 
 opConsoleApp.directive('datepicker', function () {

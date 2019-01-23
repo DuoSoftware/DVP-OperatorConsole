@@ -6,7 +6,7 @@ var opConsoleApp = angular.module('opConsoleApp', ['ngRoute', 'ui.bootstrap',
     'ui.router', 'angular-jwt', 'angular.filter', 'satellizer',
     'LocalStorageModule', 'base64', 'easypiechart', 'ngNotify',
     'checklist-model', 'as.sortable', 'ui.slimscroll', 'oitozero.ngSweetAlert',
-    'ngTagsInput', 'btford.socket-io', 'cp.ngConfirm','ui.grid.pinning',
+    'ngTagsInput', 'btford.socket-io', 'cp.ngConfirm', 'ui.grid','ui.grid.importer', 'ui.grid.pinning',
     'ui.grid.autoResize',
     'ui.grid.exporter',
     'ui.grid.resizeColumns',
@@ -14,7 +14,13 @@ var opConsoleApp = angular.module('opConsoleApp', ['ngRoute', 'ui.bootstrap',
     'ui.grid.selection',
     'ui.grid.moveColumns',
     'ui.grid.infiniteScroll',
-    'ui.grid.grouping','ui.select', 'ngSanitize','ngCsv','ui.bootstrap.datetimepicker','ngTagsInput','gantt','angularMoment','moment-picker']);
+    'ui.grid.grouping', 'ui.select', 'ngSanitize', 'ngCsv', 'ui.bootstrap.datetimepicker', 'ngTagsInput', 'gantt',
+    'gantt.table',
+    'gantt.labels',
+    'gantt.tooltips',
+    'gantt.sortable',
+    'gantt.resizeSensor',
+    'gantt.dependencies', 'angularMoment', 'moment-picker']);
 
 
 opConsoleApp.constant('moment', moment);
@@ -58,6 +64,12 @@ opConsoleApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$
             data: {
                 requireLogin: true
             }
+        }).state('op-console.voxbone-number-configuration', {
+            url: "/voxbone-number-configuration",
+            templateUrl: "app/views/voxbone-number-config/voxboneNumberConfigMain.html",
+            data: {
+                requireLogin: true
+            }
         }).state('op-console.all-company-information', {
             url: "/all-company-information",
             templateUrl: "app/views/company/all-company-information.html",
@@ -97,6 +109,13 @@ opConsoleApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$
             data: {
                 requireLogin: true
             }
+        }).state('op-console.phone_configuration', {
+            url: "/phone_configuration",
+            templateUrl: "app/views/ipPhone/phone_configuration.html",
+            controller: "phone_configuration_controller",
+            data: {
+                requireLogin: true
+            }
         }).state('op-console.agent-productivity', {
             url: "/agent-productivity",
             controller: "agentProductivityController",
@@ -108,6 +127,28 @@ opConsoleApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$
             url: "/agent-summery",
             controller: "agentStatusEventController",
             templateUrl: "app/views/reports/agentStatusEventList.html"
+        }).state('op-console.ipPhone', {
+            url: "/ip-phone-list",
+            templateUrl: "app/views/ipPhone/ipPhone.html",
+            controller: "ipPhoneController",
+            data: {
+                requireLogin: true
+            }
+        }).state('op-console.ipPhoneUpload', {
+            url: "/ip-phone-upload",
+            templateUrl: "app/views/ipPhone/ipPhoneUpload.html",
+            controller: "ipPhoneController",
+            data: {
+                requireLogin: true
+            }
+        }).state('op-console.create-report-user', {
+            url: "/user-create",
+            controller: "usercreationController",
+            templateUrl: "app/views/user/userList.html",
+            data :{
+                requireLogin:true,
+                navigation: "REPORTUSERCREATION"
+            }
         })
     }], function () {
 
@@ -116,9 +157,9 @@ opConsoleApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$
 
 //app base URL
 var baseUrls = {
-    'userServiceBaseUrl': 'http://userservice.app1.veery.cloud/DVP/API/1.0.0.0/', //userservice.app.veery.cloud
+    'userServiceBaseUrl': 'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/', //userservice.app.veery.cloud
     'monitorServerUrl': 'http://monitorrestapi.app.veery.cloud/DVP/API/1.0.0.0/MonitorRestAPI/',
-    'sipUserEndpointService': 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/',
+    'sipUserEndpointService': 'http://localhost:8086/DVP/API/1.0.0.0/',// 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/',
     'userServiceAuthUrl': 'http://userservice.app1.veery.cloud/',
     'resourceServiceBaseUrl': 'http://resourceservice.app.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',// resourceservice.app.veery.cloud
     'phoneNumTrunkServiceBaseURL': 'http://phonenumbertrunkservice.app.veery.cloud/DVP/API/1.0.0.0/',
@@ -128,8 +169,10 @@ var baseUrls = {
     'ipMessageURL': 'http://ipmessagingservice.app.veery.cloud/',
     'billingserviceURL': 'http://billingservice.app.veery.cloud/DVP/API/1.0.0.0/Billing/',
     'notification': 'http://notificationservice.app.veery.cloud',
-    'authUrl':'http://userservice.app1.veery.cloud',
-    'cdrProcessor':'http://cdrprocessor.app.veery.cloud/DVP/API/1.0.0.0/CallCDR/' //cdrprocessor.app.veery.cloud
+    'authUrl': 'http://userservice.app1.veery.cloud',
+    'cdrProcessor': 'http://cdrprocessor.app.veery.cloud/DVP/API/1.0.0.0/CallCDR/', //cdrprocessor.app.veery.cloud
+    'voxboneApi': 'http://localhost:8832/DVP/API/1.0.0.0/voxbone/',
+    'diginEngineBaseUrl': 'http://poc-digin-new/DigInEngine/'
 };
 
 opConsoleApp.constant('moment', moment);
@@ -142,7 +185,7 @@ opConsoleApp.constant('config', {
     clusterId: '2'
 });
 
-opConsoleApp.run(['$anchorScroll', function ($anchorScroll,$rootScope, loginService, $location, $state) {
+opConsoleApp.run(['$anchorScroll', function ($anchorScroll, $rootScope, loginService, $location, $state) {
     $anchorScroll.yOffset = 50;   // always scroll by 50 extra pixels
 }]);
 
