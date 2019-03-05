@@ -54,6 +54,9 @@ opConsoleApp.controller('consoleCtrl', function ($scope, $filter, $state, ngNoti
             case 'agentProductivity':
                 $state.go('op-console.agent-productivity');
                 break;
+            case 'userDetail':
+                $state.go('op-console.user-detail');
+                break;
             case 'agentSummery':
                 $state.go('op-console.agent-summery');
                 break;

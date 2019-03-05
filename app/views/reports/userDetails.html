@@ -1,0 +1,93 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2><i class="fa fa-align-left"></i> User Details
+                    <small>.</small>
+                </h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="row">
+
+                    <!--<div ng-show="OnlineAgents.length==0" >
+                        <div class="row ">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="data-state-wrap">
+                                    No Data....
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div ng-show="isLoading" >
+                        <div class="row ">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="data-state-wrap">
+                                    Please Wait...
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    -->
+                    <div class="row">
+                        <div class="x_panel">
+
+                            <div class="x_title bottom-gray-200 m-bottom20">
+                                <h4 class="font-robot font-300 text-uppercase font-15">Search option
+                                </h4>
+                                <div class="clearfix"></div>
+                            </div>
+
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                                <label>Company</label>
+                                <tags-input ng-model="companyFilter" display-property="companyName"  add-from-autocomplete-only="true" replace-spaces-with-dashes="false" min-length="1">
+                                    <auto-complete source="querySearchCompanies($query)" load-on-empty="true" load-on-focus="true" min-length="1" max-results-to-show="10000"></auto-complete>
+                                </tags-input>
+                            </div>
+
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                                <label>Business Unit</label>
+                                <tags-input ng-model="buFilter" display-property="buName" key-property="buId" add-from-autocomplete-only="true" replace-spaces-with-dashes="false" min-length="1">
+                                    <auto-complete source="querySearchBUs($query)" load-on-empty="true" load-on-focus="true" min-length="1" max-results-to-show="10000"></auto-complete>
+                                </tags-input>
+                            </div>
+
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                                <label>User</label>
+                                <tags-input ng-model="userFilter" display-property="username"  add-from-autocomplete-only="true" replace-spaces-with-dashes="false" min-length="1">
+                                    <auto-complete source="querySearchUsers($query)" load-on-empty="true" load-on-focus="true" min-length="1" max-results-to-show="10000"></auto-complete>
+                                </tags-input>
+                                <!--<input type="text" class="form-control" ng-model="userFilter" min-length="0" data-html="1" data-auto-select="true" data-animation="am-flip-x" bs-options="usr.Username as usr.Username for usr in userList" placeholder="User" bs-typeahead>-->
+                            </div>
+
+
+                            <!--<div class="col-md-1 col-sm-3 col-xs-12">-->
+                                <!--<button style="position: relative; top: 25px;" type="button" class="btn btn-primary"-->
+                                        <!--ng-disabled="isTableLoading" ng-click="getAgentSummary()">Search-->
+                                <!--</button>-->
+                            <!--</div>-->
+
+
+
+                        <!--<div ng-show="isTableLoading"-->
+                             <!--class="loading-current-view" style="background: transparent;">-->
+                            <!--&lt;!&ndash;  loader  &ndash;&gt;-->
+                            <!--<svg class="circular">-->
+                                <!--<circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2"></circle>-->
+                            <!--</svg>-->
+                            <!--<div class="loader-section"></div>-->
+                        <!--</div>-->
+
+                        <!--<div ui-if="gridQOptions.data.length>0" id="grid1" ui-grid="gridQOptions" class="grid"-->
+                             <!--ui-grid-move-columns ui-grid-resize-columns ui-grid-auto-resize ui-grid-pinning-->
+                             <!--ng-style="getTableHeight()"></div>-->
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
