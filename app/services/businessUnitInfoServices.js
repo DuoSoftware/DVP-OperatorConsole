@@ -38,11 +38,21 @@ opConsoleApp.factory('businessUnitInfoServices', function ($http, baseUrls) {
             });
         };
 
+        var getConsolidatedUsersForBU = function (bu) {
+            return $http({
+                method: 'GET',
+                url: baseUrls.userServiceBaseUrl + 'ConsolidatedBusinessUnit/' + bu + '/Users/consolidated'
+            }).then(function (resp) {
+                return resp.data;
+
+            });
+        };
 
         return {
             getAllBUDetails: getAllBUDetails,
             getConsolidatedBusinessUnits: getConsolidatedBusinessUnits,
-            getAllUsersForBU: getAllUsersForBU
+            getAllUsersForBU: getAllUsersForBU,
+            getConsolidatedUsersForBU: getConsolidatedUsersForBU
         };
 
 

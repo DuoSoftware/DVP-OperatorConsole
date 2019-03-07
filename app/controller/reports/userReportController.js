@@ -30,7 +30,7 @@ opConsoleApp.controller("userReportController", function ($scope, $anchorScroll,
     var data = [];
     var process =  function(item) {
         var deferred = $q.defer();
-        businessUnitInfoServices.getAllUsersForBU(item.unitName).then(function (response) {
+        businessUnitInfoServices.getConsolidatedUsersForBU(item.unitName).then(function (response) {
             if (response.Result) {
 
                 response.Result.map(function (user) {
@@ -44,34 +44,42 @@ opConsoleApp.controller("userReportController", function ($scope, $anchorScroll,
                             }
                         });
 
-                        if ($scope.roleFilter !== undefined && $scope.roleFilter.length > 0) {
-                            $scope.roleFilter.some(function (el) {
-                                if (el.role === user.user_meta.role) {
-                                    data.push({
+                        if($scope.companyFilter !== undefined && $scope.companyFilter.length > 0){
+
+                            var companyValid = $scope.companyFilter.some(function (el) {
+                                return el.companyId === user.company;
+                            });
+
+                            if(!companyValid){
+                                return false;
+                            }
+                        }
+
+                        if (user.veeryaccount === undefined){
+                            user.veeryaccount = {};
+                            user.veeryaccount.contact = '-';
+                        }
+
+                        var userobj = {
                                         company: companyName,
                                         buName: item.unitName,
                                         username: user.username,
                                         createdDate: user.created_at,
                                         updatedDate: user.updated_at,
                                         role: user.user_meta.role,
+                                        sipAccount: user.veeryaccount.contact,
                                         userScopes: user.user_scopes
-                                    });
+                                    };
+                        if ($scope.roleFilter !== undefined && $scope.roleFilter.length > 0) {
+                            $scope.roleFilter.some(function (el) {
+                                if (el.role === user.user_meta.role) {
+                                    data.push(userobj);
                                 }
                             });
 
                         }
                         else {
-
-                            data.push({
-                                company: companyName,
-                                buName: item.unitName,
-                                username: user.username,
-                                createdDate: user.created_at,
-                                updatedDate: user.updated_at,
-                                role: user.user_meta.role,
-                                userScopes: user.user_scopes
-                            });
-
+                            data.push(userobj);
                         }
                 }
                 });
@@ -89,11 +97,11 @@ opConsoleApp.controller("userReportController", function ($scope, $anchorScroll,
 
     $scope.getUserDetails = function (){
     $scope.isTableLoading = true;
+        data = [];
         businessUnitInfoServices.getConsolidatedBusinessUnits().then(function (response) {
             if (response.Result) {
 
                 var promises = response.Result.map(function (item) {
-                    console.log($scope.companyFilter); //[{companyId: 87, companyName: "owner"}]
                     if($scope.companyFilter === undefined || $scope.companyFilter.length === 0){
                         return process(item);
                     }
@@ -178,7 +186,6 @@ opConsoleApp.controller("userReportController", function ($scope, $anchorScroll,
     $scope.querySearchUsers = function (query) {
         if (query === "*" || query === "") {
             if ($scope.userList) {
-                console.log($scope.userList);
                 return $scope.userList;
             }
             else {
@@ -241,7 +248,7 @@ opConsoleApp.controller("userReportController", function ($scope, $anchorScroll,
         }
 
     };
-    $scope.roleFilterData = [{'role':'superadmin'},{'role':'admin'},{'role':'agent'}];
+    $scope.roleFilterData = [{'role':'admin'},{'role':'agent'},{'role':'supervisor'}];
 
     $scope.querySearchRoles = function (query) {
         if (query === "*" || query === "") {
@@ -310,7 +317,6 @@ opConsoleApp.controller("userReportController", function ($scope, $anchorScroll,
     };
 
     $scope.showMessage= function (scopes) {
-        console.log($scope.userScopes);
         $scope.userScopesArr = scopes.sort(function(a, b) {
             if (a.scope.toUpperCase() < b.scope.toUpperCase()) {
                 return -1;
@@ -368,6 +374,14 @@ opConsoleApp.controller("userReportController", function ($scope, $anchorScroll,
                 grouping: { groupPriority: 2 },
                 headerTooltip: 'Business Unit'
             },
+            {
+                enableFiltering: false,
+                width: '60',
+                name: 'Role ',
+                field: 'role',
+                grouping: { groupPriority: 3 },
+                headerTooltip: 'Role'
+            },
              {
                 enableFiltering: true,
                 width: '100',
@@ -376,11 +390,11 @@ opConsoleApp.controller("userReportController", function ($scope, $anchorScroll,
                 headerTooltip: 'User'
             },
             {
-                enableFiltering: false,
-                width: '60',
-                name: 'Role ',
-                field: 'role',
-                headerTooltip: 'Role'
+                enableFiltering: true,
+                width: '100',
+                name: 'SIP Account',
+                field: 'sipAccount',
+                headerTooltip: 'SIP Account'
             },
             {
                 enableFiltering: false,
