@@ -7,7 +7,7 @@
 opConsoleApp.factory('businessUnitInfoServices', function ($http, baseUrls) {
 
 
-        //get all company info
+        //get all bu info
         var getAllBUDetails = function () {
             return $http({
                 method: 'GET',
@@ -18,11 +18,32 @@ opConsoleApp.factory('businessUnitInfoServices', function ($http, baseUrls) {
             });
         };
 
+        var getConsolidatedBusinessUnits = function () {
+            return $http({
+                method: 'GET',
+                url: baseUrls.userServiceBaseUrl + 'ConsolidatedBusinessUnits/consolidated'
+            }).then(function (resp) {
+                return resp.data;
+
+            });
+        };
+
+        var getAllUsersForBU = function (bu) {
+            return $http({
+                method: 'GET',
+                url: baseUrls.userServiceBaseUrl + 'BusinessUnit/' + bu + '/Users/'
+            }).then(function (resp) {
+                return resp.data;
+
+            });
+        };
 
 
         return {
-            getAllBUDetails: getAllBUDetails
-        }
+            getAllBUDetails: getAllBUDetails,
+            getConsolidatedBusinessUnits: getConsolidatedBusinessUnits,
+            getAllUsersForBU: getAllUsersForBU
+        };
 
 
     }
