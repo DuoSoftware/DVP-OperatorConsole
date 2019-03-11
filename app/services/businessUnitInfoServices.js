@@ -38,10 +38,10 @@ opConsoleApp.factory('businessUnitInfoServices', function ($http, baseUrls) {
             });
         };
 
-        var getConsolidatedUsersForBU = function (bu) {
+        var getConsolidatedUsersForBU = function (bu, page, size) {
             return $http({
                 method: 'GET',
-                url: baseUrls.userServiceBaseUrl + 'ConsolidatedBusinessUnit/' + bu + '/Users/consolidated'
+                url: baseUrls.userServiceBaseUrl + 'ConsolidatedBusinessUnitFull/' + bu + '/Users/consolidated?Page=' + page + '&Size=' + size
             }).then(function (resp) {
                 return resp.data;
 

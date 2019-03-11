@@ -27,181 +27,111 @@ opConsoleApp.controller("userReportController", function ($scope, $anchorScroll,
         }
     });
 
-    userProfileServices.getConsolidatedUserGroups().then(function (response) {
-        if (response.Result) {
-            $scope.userGroupData = response.Result.map(function (item) {
-                return {
-                    groupId: item._id,
-                    groupName: item.name
-                };
-            });
-        }
-    });
 
     var data = [];
-    var process =  function(item) {
-        var deferred = $q.defer();
-        businessUnitInfoServices.getConsolidatedUsersForBU(item.unitName).then(function (response) {
+    var paginationOptions = {
+        pageNumber: 1,
+        pageSize: 100,
+        sort: null
+    };
+    $scope.isTableLoading = false;
+
+    $scope.getUserDetails = function (isSearch){
+    if(isSearch){
+        data =[];
+        paginationOptions.pageNumber = 1;
+        paginationOptions.pageSize = 100;
+    }
+    $scope.isTableLoading = true;
+        businessUnitInfoServices.getConsolidatedUsersForBU('all', paginationOptions.pageNumber, paginationOptions.pageSize).then(function (response) {
+            $scope.isCurrPageEmpty = response.Result.length === 0;
             if (response.Result) {
+                var promises = response.Result.map(function (user) {
 
-                response.Result.map(function (user) {
-                    if (user.user_meta !== undefined) {  //ignore wrong data
+                if (user.user_meta !== undefined) {  //ignore wrong data
 
-                        var companyName = '';
-                        $scope.companyFilterData.some(function (el) {
-                            if (el.companyId === item.company) {
+                    var companyName = '';
+                    $scope.companyFilterData.some(function (el) {
+                        if (el.companyId === user.company) {
+                            companyName = el.companyName;
+                            return true;
+                        }
+                    });
+
+                    if ($scope.companyFilter !== undefined && $scope.companyFilter.length > 0) {
+
+                        var companyValid = $scope.companyFilter.some(function (el) {
+                            if (el.companyId === user.company) {
                                 companyName = el.companyName;
                                 return true;
                             }
                         });
 
-                        var groupName = '-';
-                        $scope.userGroupData.some(function (el) {
-                            if (el.groupId === user.group) {
-                                groupName = el.groupName;
-                                return true;
+                        if (!companyValid) {
+                            return;
+                        }
+                    }
+
+                    var sipAccount = '-';
+                    if (user.veeryaccount != null) {
+                        sipAccount = user.veeryaccount.contact;
+                    }
+
+                    var groupName = '-';
+                    var buName = '-';
+
+                    if (user.group !== undefined){
+                        groupName = user.group.name;
+                        buName = user.group.businessUnit;
+                    }
+
+                    var userobj = {
+                        company: companyName,
+                        buName: buName,
+                        groupName: groupName,
+                        username: user.username,
+                        createdDate: user.created_at,
+                        updatedDate: user.updated_at,
+                        role: user.user_meta.role,
+                        sipAccount: sipAccount,
+                        userScopes: user.user_scopes
+                    };
+                    if ($scope.roleFilter !== undefined && $scope.roleFilter.length > 0) {
+                        $scope.roleFilter.some(function (el) {
+                            if (el.role === user.user_meta.role) {
+                                data.push(userobj);
                             }
                         });
 
-                        if($scope.companyFilter !== undefined && $scope.companyFilter.length > 0){
-
-                            var companyValid = $scope.companyFilter.some(function (el) {
-                                return el.companyId === user.company;
-                            });
-
-                            if(!companyValid){
-                                return false;
-                            }
-                        }
-
-                        if (user.veeryaccount === undefined){
-                            user.veeryaccount = {};
-                            user.veeryaccount.contact = '-';
-                        }
-
-                        var userobj = {
-                                        company: companyName,
-                                        buName: item.unitName,
-                                        groupName: groupName,
-                                        username: user.username,
-                                        createdDate: user.created_at,
-                                        updatedDate: user.updated_at,
-                                        role: user.user_meta.role,
-                                        sipAccount: user.veeryaccount.contact,
-                                        userScopes: user.user_scopes
-                                    };
-                        if ($scope.roleFilter !== undefined && $scope.roleFilter.length > 0) {
-                            $scope.roleFilter.some(function (el) {
-                                if (el.role === user.user_meta.role) {
-                                    data.push(userobj);
-                                }
-                            });
-
-                        }
-                        else {
-                            data.push(userobj);
-                        }
+                    }
+                    else {
+                        data.push(userobj);
+                    }
                 }
-                });
-                deferred.resolve(true);
-            }
-            else{
-                deferred.resolve(false);
-            }
-
-        });
-        return deferred.promise;
-    };
-
-    $scope.isTableLoading = false;
-
-    $scope.getUserDetails = function (){
-    $scope.isTableLoading = true;
-        data = [];
-        businessUnitInfoServices.getConsolidatedBusinessUnits().then(function (response) {
-            if (response.Result) {
-
-                var promises = response.Result.map(function (item) {
-                    if($scope.companyFilter === undefined || $scope.companyFilter.length === 0){
-                        return process(item);
-                    }
-                    else{
-                        var companyMatched = $scope.companyFilter.some(function (el) {
-                            return el.companyId === item.company;
-                        });
-
-                        if(companyMatched){
-                            return process(item);
-                        }
-                    }
-                    });
+            });
 
                 $q.all(promises).then(
                     function (res) {
                         if(res) {
-                            $scope.gridQOptions.data = data;
-                            $scope.isTableLoading = false;
+
+                            if(data.length < paginationOptions.pageSize && !$scope.isCurrPageEmpty){
+                                paginationOptions.pageNumber ++;
+                                $scope.getUserDetails();
+                            }
+                            else {
+                                $scope.gridQOptions.data = data;
+                                $scope.isTableLoading = false;
+                            }
                         }
                     }
                 );
+            }
 
-            }});
+        });
 
     };
 
     $scope.userList = [];
-
-    // userProfileServices.getUserCount().then(function (rowCount) {
-    //     var pageSize = 20;
-    //     var pagecount = Math.ceil(rowCount / pageSize);
-    //
-    //     var methodList = [];
-    //
-    //     for (var i = 1; i <= pagecount; i++) {
-    //         methodList.push(userProfileServices.getUsersWithPaging(i,pageSize));
-    //     }
-    //
-    //
-    //     $q.all(methodList).then(function (resolveData) {
-    //         if (resolveData) {
-    //             resolveData.map(function (response) {
-    //
-    //                 response.map(function (item) {
-    //
-    //                     $scope.userList.push(item);
-    //
-    //                 });
-    //
-    //
-    //             });
-    //
-    //         }
-    //
-    //
-    //     }).catch(function (err) {
-    //         loginService.isCheckResponse(err);
-    //         var errMsg = "Error occurred while getting user list";
-    //         if (err.statusText) {
-    //             errMsg = err.statusText;
-    //         }
-    //         $scope.showAlert('Error', 'error', errMsg);
-    //
-    //
-    //     });
-    //
-    //
-    //
-    // }, function (err) {
-    //     loginService.isCheckResponse(err);
-    //     var errMsg = "Error occurred while getting user list";
-    //     if (err.statusText) {
-    //         errMsg = err.statusText;
-    //     }
-    //     $scope.showAlert('Error', 'error', errMsg);
-    //
-    //
-    //
-    // });
 
     $scope.querySearchUsers = function (query) {
         if (query === "*" || query === "") {
@@ -359,24 +289,30 @@ opConsoleApp.controller("userReportController", function ($scope, $anchorScroll,
         });
     };
 
-    $scope.getTableHeight = function () {
-        var rowHeight = 30; // row height
-        var headerHeight = 50; // header height
-        return {
-            height: (($scope.gridQOptions.data.length + 2) * rowHeight + headerHeight) + "px"
-        };
+
+    $scope.getTableHeight = function() {
+        var rowHeight = 30;
+        var headerHeight = 50; // your header height
+        var height = 300 + headerHeight;
+        if ($scope.gridApi.core.getVisibleRows().length * rowHeight > 200){
+            height = $scope.gridApi.core.getVisibleRows().length * rowHeight + headerHeight;
+        }
+        return "height:" + height + "px !important;"
     };
 
     $scope.gridQOptions = {
         enableSorting: true,
         enableFiltering: true,
         enableExpandable: true,
+        //useCustomPagination: true,
         enableColumnResizing: true,
         enableRowSelection: true,
         enableRowHeaderSelection: false,
         multiSelect: false,
         modifierKeysToMultiSelect: false,
         noUnselect: false, enableHorizontalScrollbar: true,
+        // paginationPageSizes: [100, 200, 300, 400],
+        //paginationPageSize: 100,
         columnDefs: [
             {
                 enableFiltering: true,
@@ -472,6 +408,20 @@ opConsoleApp.controller("userReportController", function ($scope, $anchorScroll,
         data: [],
         onRegisterApi: function (gridApi) {
             $scope.grid1Api = gridApi;
+            $scope.isCurrPageEmpty = false;
+            // gridApi.pagination.on.paginationChanged($scope, function (pageNumber, pageSize) { // total number of records can be found this can be used
+            //     data = [];
+            //     //paginationOptions.pageNumber = pageNumber;
+            //     paginationOptions.pageSize = pageSize;
+            //     // $scope.grid1Api = gridApi;
+            //     getPage();
+            // });
+            gridApi.core.on.scrollEnd($scope, function (row) {
+                if (row.y.percentage > 0.8) { // if vertical scroll bar reaches 80% this triggers
+                    paginationOptions.pageNumber++;
+                    $scope.getUserDetails(false);
+                }
+            });
         }
     };
 

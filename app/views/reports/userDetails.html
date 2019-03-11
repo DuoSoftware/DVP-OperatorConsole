@@ -34,7 +34,7 @@
                             </div>
                             <div class="col-md-1 col-sm-3 col-xs-12">
                                 <button style="position: relative; top: 25px;" type="button" class="btn btn-primary"
-                                        ng-disabled="isTableLoading" ng-click="getUserDetails()">Search
+                                        ng-disabled="isTableLoading" ng-click="getUserDetails(true)">Search
                                 </button>
                             </div>
 
@@ -52,8 +52,8 @@
                         </div>
 
                         <div ui-if="gridQOptions.data.length>0" id="grid1" ui-grid="gridQOptions" class="grid"
-                             ui-grid-move-columns ui-grid-resize-columns ui-grid-auto-resize ui-grid-pinning ui-grid-pagination
-                             ng-style="getTableHeight()"></div>
+                             ui-grid-move-columns ui-grid-resize-columns ui-grid-pinning
+                             data-ng-attr-style="{{ getTableHeight() }}"></div>
                     </div>
             </div>
         </div>
