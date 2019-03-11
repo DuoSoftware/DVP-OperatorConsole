@@ -27,6 +27,17 @@ opConsoleApp.controller("userReportController", function ($scope, $anchorScroll,
         }
     });
 
+    userProfileServices.getConsolidatedUserGroups().then(function (response) {
+        if (response.Result) {
+            $scope.userGroupData = response.Result.map(function (item) {
+                return {
+                    groupId: item._id,
+                    groupName: item.name
+                };
+            });
+        }
+    });
+
     var data = [];
     var process =  function(item) {
         var deferred = $q.defer();
@@ -40,6 +51,14 @@ opConsoleApp.controller("userReportController", function ($scope, $anchorScroll,
                         $scope.companyFilterData.some(function (el) {
                             if (el.companyId === item.company) {
                                 companyName = el.companyName;
+                                return true;
+                            }
+                        });
+
+                        var groupName = '-';
+                        $scope.userGroupData.some(function (el) {
+                            if (el.groupId === user.group) {
+                                groupName = el.groupName;
                                 return true;
                             }
                         });
@@ -63,6 +82,7 @@ opConsoleApp.controller("userReportController", function ($scope, $anchorScroll,
                         var userobj = {
                                         company: companyName,
                                         buName: item.unitName,
+                                        groupName: groupName,
                                         username: user.username,
                                         createdDate: user.created_at,
                                         updatedDate: user.updated_at,
@@ -119,8 +139,8 @@ opConsoleApp.controller("userReportController", function ($scope, $anchorScroll,
                 $q.all(promises).then(
                     function (res) {
                         if(res) {
-                            $scope.isTableLoading = false;
                             $scope.gridQOptions.data = data;
+                            $scope.isTableLoading = false;
                         }
                     }
                 );
@@ -360,45 +380,72 @@ opConsoleApp.controller("userReportController", function ($scope, $anchorScroll,
         columnDefs: [
             {
                 enableFiltering: true,
-                width: '150',
+                width: '120',
                 name: 'Company Name',
                 field: 'company',
                 grouping: { groupPriority: 1 },
+                sort: {
+                    direction: uiGridConstants.ASC,
+                    priority: 0
+                },
                 headerTooltip: 'Company Name'
             },
             {
                 enableFiltering: true,
-                width: '150',
+                width: '120',
                 name: 'Business Unit',
                 field: 'buName',
                 grouping: { groupPriority: 2 },
+                sort: {
+                    direction: uiGridConstants.ASC,
+                    priority: 1
+                },
                 headerTooltip: 'Business Unit'
             },
             {
                 enableFiltering: false,
-                width: '60',
+                width: '70',
                 name: 'Role ',
                 field: 'role',
                 grouping: { groupPriority: 3 },
+                sort: {
+                    direction: uiGridConstants.ASC,
+                    priority: 2
+                },
                 headerTooltip: 'Role'
+            },
+            {
+                enableFiltering: false,
+                width: '100',
+                name: 'User Group ',
+                field: 'groupName',
+                headerTooltip: 'User Group',
+                sort: {
+                    direction: uiGridConstants.ASC,
+                    priority: 3
+                },
             },
              {
                 enableFiltering: true,
-                width: '100',
+                width: '120',
                 name: 'User',
                 field: 'username',
-                headerTooltip: 'User'
+                headerTooltip: 'User',
+                sort: {
+                     direction: uiGridConstants.ASC,
+                     priority: 4
+                 },
             },
             {
                 enableFiltering: true,
-                width: '100',
+                width: '120',
                 name: 'SIP Account',
                 field: 'sipAccount',
                 headerTooltip: 'SIP Account'
             },
             {
                 enableFiltering: false,
-                width: '150',
+                width: '100',
                 name: 'Created Date',
                 field: 'createdDate',
                 headerTooltip: 'Created Date',
@@ -406,7 +453,7 @@ opConsoleApp.controller("userReportController", function ($scope, $anchorScroll,
                 cellTemplate: "<div>{{row.entity.createdDate| date:'MM/dd/yyyy'}}</div>"
             }, {
                 enableFiltering: false,
-                width: '150',
+                width: '100',
                 name: 'Updated Date',
                 field: 'updatedDate',
                 headerTooltip: 'Updated Date',
@@ -414,7 +461,7 @@ opConsoleApp.controller("userReportController", function ($scope, $anchorScroll,
                 cellTemplate: "<div>{{row.entity.updatedDate| date:'MM/dd/yyyy'}}</div>"
             }, {
                 enableFiltering: false,
-                width: '150',
+                width: '120',
                 name: 'User Scopes',
                 field: 'userScopes',
                 headerTooltip: 'User Scopes',

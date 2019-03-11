@@ -116,6 +116,16 @@
                 return resp.data;
             })
         };
+
+        var getConsolidatedUserGroups = function () {
+            return $http({
+                method: 'GET',
+                url: baseUrls.userServiceBaseUrl + 'ConsolidatedUserGroups/consolidated'
+            }).then(function (resp) {
+                return resp.data;
+            })
+        };
+
         var getGroupMembers = function (groupID) {
             return $http({
                 method: 'GET',
@@ -240,6 +250,7 @@
             deleteUser: deleteUser,
             addUserGroup: addUserGroup,
             getUserGroups: getUserGroups,
+            getConsolidatedUserGroups: getConsolidatedUserGroups,
             removeUserFromGroup: removeUserFromGroup,
             getGroupMembers: getGroupMembers,
             addMemberToGroup: addMemberToGroup,
