@@ -294,9 +294,9 @@ opConsoleApp.controller("userReportController", function ($scope, $anchorScroll,
         var rowHeight = 30;
         var headerHeight = 50; // your header height
         var height = 300 + headerHeight;
-        if ($scope.gridApi.core.getVisibleRows().length * rowHeight > 200){
-            height = $scope.gridApi.core.getVisibleRows().length * rowHeight + headerHeight;
-        }
+        // if ($scope.grid1Api.core.getVisibleRows().length * rowHeight > 200){
+        //     height = $scope.grid1Api.core.getVisibleRows().length * rowHeight + headerHeight;
+        // }
         return "height:" + height + "px !important;"
     };
 
@@ -417,7 +417,7 @@ opConsoleApp.controller("userReportController", function ($scope, $anchorScroll,
             //     getPage();
             // });
             gridApi.core.on.scrollEnd($scope, function (row) {
-                if (row.y.percentage > 0.8) { // if vertical scroll bar reaches 80% this triggers
+                if (row.y.percentage > 0.95 && !$scope.isCurrPageEmpty) { // if vertical scroll bar reaches 80% this triggers
                     paginationOptions.pageNumber++;
                     $scope.getUserDetails(false);
                 }

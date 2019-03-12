@@ -158,7 +158,7 @@
                                 </li>
 
 
-                                <li  ng-show="accessNavigation.AGENTPRODUCTIVITY || accessNavigation.AGENTSUMMERY">
+                                <li  ng-show="accessNavigation.AGENTPRODUCTIVITY || accessNavigation.AGENTSUMMERY || accessNavigation.USERDETAIL">
                                     <a><i><img src="assets/img/ui-icon-1/files-1.svg" width="20px"/></i> Reports
                                         <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
@@ -170,7 +170,7 @@
                                             <a ng-click="goToNavigation('agentSummery')" href="javascript:void(0);">Agent
                                                 Summery</a>
                                         </li>
-                                        <li ng-show="accessNavigation.AGENTSUMMERY">
+                                        <li ng-show="accessNavigation.USERDETAIL">
                                             <a ng-click="goToNavigation('userDetail')" href="javascript:void(0);">User Details</a>
                                         </li>
                                     </ul>
