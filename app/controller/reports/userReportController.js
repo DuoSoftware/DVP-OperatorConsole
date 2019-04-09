@@ -38,6 +38,7 @@ opConsoleApp.controller("userReportController", function ($scope, $anchorScroll,
 
     $scope.getUserDetails = function (isSearch){
     if(isSearch){
+        $scope.gridQOptions.data = []
         data =[];
         paginationOptions.pageNumber = 1;
         paginationOptions.pageSize = 100;
