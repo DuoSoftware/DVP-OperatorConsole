@@ -37,15 +37,15 @@
                             <td>{{scope.scope}}</td>
                             <td style="text-align: center">
                                 <i class = "fa fa-check" ng-if="scope.read" style="color: green"> </i>
-                                <i class = "fa fa-times" ng-if="scope.read === undefined" style="color:red"> </i>
+                                <i class = "fa fa-times" ng-if="scope.read == undefined || scope.read == false" style="color:red"> </i>
                             </td>
                             <td style="text-align: center">
                                 <i class = "fa fa-check" ng-if="scope.write" style="color: green"> </i>
-                                <i class = "fa fa-times" ng-if="scope.write === undefined" style="color:red"> </i>
+                                <i class = "fa fa-times" ng-if="scope.write == undefined || scope.write == false" style="color:red"> </i>
                             </td>
                             <td style="text-align: center">
                                 <i class = "fa fa-check" ng-if="scope.delete" style="color: green"> </i>
-                                <i class = "fa fa-times" ng-if="scope.delete === undefined" style="color:red"> </i>
+                                <i class = "fa fa-times" ng-if="scope.delete == undefined || scope.delete == false" style="color:red"> </i>
                             </td>
                         </tr>
                         </tbody>
