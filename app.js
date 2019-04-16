@@ -123,6 +123,13 @@ opConsoleApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$
             data: {
                 requireLogin: true
             }
+        }).state('op-console.user-detail', {
+            url: "/user-detail",
+            controller: "userReportController",
+            templateUrl: "app/views/reports/userDetails.html",
+            data: {
+                requireLogin: true
+            }
         }).state('op-console.agent-summery', {
             url: "/agent-summery",
             controller: "agentStatusEventController",

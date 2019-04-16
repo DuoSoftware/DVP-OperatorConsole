@@ -86,6 +86,15 @@ opConsoleApp.controller('usercreationController', function ($scope, ngNotify, us
                                 "read" : true
                             }
                         ]
+                    },
+                    {
+                        "menuItem" : "USERDETAIL",
+                        "menuAction" : [
+                            {
+                                "scope" : "consolidatedreports",
+                                "read" : true
+                            }
+                        ]
                     }
 
                 ];

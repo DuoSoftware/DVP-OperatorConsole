@@ -25,6 +25,35 @@
             })
         };
 
+        var getUsersWithPaging = function (page,size) {
+
+            return $http({
+                method: 'GET',
+                url: baseUrls.userServiceBaseUrl +"Users/"+"?Page="+page+"&Size="+size
+            }).then(function (response) {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.Result;
+                } else {
+                    return 0;
+                }
+            });
+        };
+
+        var getUserCount = function () {
+
+
+            return $http({
+                method: 'GET',
+                url: baseUrls.userServiceBaseUrl +"UserCount"
+            }).then(function (response) {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.Result;
+                } else {
+                    return 0;
+                }
+            });
+        };
+
         var addContactToProfile = function (user, contact, type) {
             return $http({
                 method: 'PUT',
@@ -87,6 +116,16 @@
                 return resp.data;
             })
         };
+
+        var getConsolidatedUserGroups = function () {
+            return $http({
+                method: 'GET',
+                url: baseUrls.userServiceBaseUrl + 'ConsolidatedUserGroups/consolidated'
+            }).then(function (resp) {
+                return resp.data;
+            })
+        };
+
         var getGroupMembers = function (groupID) {
             return $http({
                 method: 'GET',
@@ -211,6 +250,7 @@
             deleteUser: deleteUser,
             addUserGroup: addUserGroup,
             getUserGroups: getUserGroups,
+            getConsolidatedUserGroups: getConsolidatedUserGroups,
             removeUserFromGroup: removeUserFromGroup,
             getGroupMembers: getGroupMembers,
             addMemberToGroup: addMemberToGroup,
@@ -220,7 +260,9 @@
             getOrganization: getOrganization,
             getMyOrganization: getMyOrganization,
             addReportUser: addReportUser,
-            AddSelectedNavigationToUser: AddSelectedNavigationToUser
+            AddSelectedNavigationToUser: AddSelectedNavigationToUser,
+            getUsersWithPaging: getUsersWithPaging,
+            getUserCount: getUserCount
 
         };
     };

@@ -1,0 +1,61 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2><i class="fa fa-align-left"></i> User Details
+                    <small>.</small>
+                </h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="row">
+
+                    <div class="row">
+                        <div class="x_panel">
+
+                            <div class="x_title bottom-gray-200 m-bottom20">
+                                <h4 class="font-robot font-300 text-uppercase font-15">Search option
+                                </h4>
+                                <div class="clearfix"></div>
+                            </div>
+
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                                <label>Company</label>
+                                <tags-input ng-model="companyFilter" display-property="companyName" key-property="companyId" add-from-autocomplete-only="true" replace-spaces-with-dashes="false" min-length="1">
+                                    <auto-complete source="querySearchCompanies($query)" load-on-empty="true" load-on-focus="true" min-length="1" max-results-to-show="10000"></auto-complete>
+                                </tags-input>
+                            </div>
+
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                                <label>Roles</label>
+                                <tags-input ng-model="roleFilter" display-property="role"  add-from-autocomplete-only="true" replace-spaces-with-dashes="false" min-length="1">
+                                    <auto-complete source="querySearchRoles($query)" load-on-empty="true" load-on-focus="true" min-length="1" max-results-to-show="10000"></auto-complete>
+                                </tags-input>
+                            </div>
+                            <div class="col-md-1 col-sm-3 col-xs-12">
+                                <button style="position: relative; top: 25px;" type="button" class="btn btn-primary"
+                                        ng-disabled="isTableLoading" ng-click="getUserDetails(true)">Search
+                                </button>
+                            </div>
+
+                        </div>
+
+                </div>
+                    <div class="row" >
+                        <div ng-show="isTableLoading"
+                             class="loading-current-view" style="background: transparent;">
+                            <!--  loader  -->
+                            <svg class="circular">
+                                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2"></circle>
+                            </svg>
+                            <div class="loader-section"></div>
+                        </div>
+
+                        <div ui-if="gridQOptions.data.length>0" id="grid1" ui-grid="gridQOptions" class="grid"
+                             ui-grid-move-columns ui-grid-resize-columns ui-grid-pinning
+                             data-ng-attr-style="{{ getTableHeight() }}"></div>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
