@@ -76,6 +76,7 @@
                                     <option ng-if="packageObj.packageType !== 'BASIC'" value="PABX">Pabx</option>
                                     <option ng-if="packageObj.packageType !== 'BASIC'" value="CALLCENTER">Callcenter</option>
                                     <option ng-if="packageObj.packageType !== 'BASIC'" value="CHATBOT">Chat-bot</option>
+                                    <option ng-if="packageObj.packageType !== 'BASIC'" value="USER">User</option>
                                 </select>
                             </div>
                         </div>
@@ -90,7 +91,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" ng-hide="packageObj.navigationType === 'USER'">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Veery Task</label>
 
                             <div class="col-md-4 col-sm-4 col-xs-12">
@@ -100,7 +101,7 @@
                                 </label>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" ng-hide="packageObj.navigationType === 'USER'">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Veery Console</label>
 
                             <div class="col-md-4 col-sm-4 col-xs-12">
@@ -119,6 +120,27 @@
                                 </label>
                             </div>
                         </div>
+
+                        <div class="form-group" ng-show="packageObj.navigationType === 'USER'">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">User Type</label>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" class="custom-control-input" id="groupOfUserTypesAdmin" ng-model="packageObj.consoles" value="ADMIN_CONSOLE" name="groupOfUserTypes">
+                            <label class="custom-control-label" >Admin</label>
+                        </div>
+
+                        <div class="custom-control custom-radio">
+                            <input type="radio" class="custom-control-input" id="defaultGroupSupervisor" ng-model="packageObj.consoles" value="SUPERVISOR_CONSOLE"  name="groupOfUserTypes" checked>
+                            <label class="custom-control-label">Supervisor</label>
+                        </div>
+
+                        <div class="custom-control custom-radio">
+                            <input type="radio" class="custom-control-input" id="defaultGroupAgent" ng-model="packageObj.consoles" value="AGENT_CONSOLE" name="groupOfUserTypes">
+                            <label class="custom-control-label">Agent</label>
+                        </div>
+                            </div>
+                        </div>
+
                         <div class="form-group" ng-if="packageObj.packageType=='DIGIN'">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Digin Templates</label>
                             <div class="col-md-4 col-sm-4 col-xs-12">
@@ -132,21 +154,22 @@
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Console Access Limits</label>
 
                             <div class="col-md-4 col-sm-4 col-xs-12">
-                                <div class="col-md-4 col-sm-4 col-xs-12">
+<!--                                <div class="col-md-4 col-sm-4 col-xs-12" ng-hide="packageObj.navigationType === 'USER' && packageObj.consoles === 'SUPERVISOR_CONSOLE'">-->
+                                <div class="col-md-4 col-sm-4 col-xs-12" ng-hide="packageObj.navigationType === 'USER' && packageObj.consoles !== 'ADMIN_CONSOLE'">
                                     <label>Admin Access</label>
                                     <input type="number" class="form-control" min="0"
                                            ng-pattern="/^(?:100|[1-9]?[0-9])$/"
                                            ng-model="packageObj.consoleAccessLimit[0].accessLimit"
                                            placeholder="Admin Access">
                                 </div>
-                                <div class="col-md-4 col-sm-4 col-xs-12">
+                                <div class="col-md-4 col-sm-4 col-xs-12" ng-hide="packageObj.navigationType === 'USER' && packageObj.consoles !== 'SUPERVISOR_CONSOLE'">
                                     <label>Supervisor Access</label>
                                     <input type="number" class="form-control" min="0"
                                            ng-pattern="/^(?:100|[1-9]?[0-9])$/"
                                            ng-model="packageObj.consoleAccessLimit[1].accessLimit"
                                            placeholder="Supervisor Access">
                                 </div>
-                                <div class="col-md-4 col-sm-4 col-xs-12">
+                                <div class="col-md-4 col-sm-4 col-xs-12" ng-hide="packageObj.navigationType === 'USER' && packageObj.consoles !== 'AGENT_CONSOLE'">
                                     <label>Agent Access</label>
                                     <input type="number" class="form-control" min="0"
                                            ng-pattern="/^(?:100|[1-9]?[0-9])$/"
@@ -155,7 +178,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" ng-hide="packageObj.navigationType === 'USER'">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Space Limits</label>
 
                             <div class="col-md-4 col-sm-4 col-xs-12">

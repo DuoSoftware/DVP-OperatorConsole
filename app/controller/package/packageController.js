@@ -506,6 +506,9 @@
                         }
                     });
                 } else {
+                    if($scope.packageObj.navigationType === 'USER'){
+                        $scope.packageObj.consoles = [$scope.packageObj.consoles]
+                    }
                     userService.CreateNewPackage($scope.packageObj).then(function (response) {
                         if (response && response.IsSuccess) {
                             $scope.packageDetails.push(response.Result);
