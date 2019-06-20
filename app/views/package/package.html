@@ -77,6 +77,7 @@
                                     <option ng-if="packageObj.packageType !== 'BASIC'" value="CALLCENTER">Callcenter</option>
                                     <option ng-if="packageObj.packageType !== 'BASIC'" value="CHATBOT">Chat-bot</option>
                                     <option ng-if="packageObj.packageType !== 'BASIC'" value="USER">User</option>
+                                    <option ng-if="packageObj.packageType !== 'BASIC'" value="LICENSE">License</option>
                                 </select>
                             </div>
                         </div>
@@ -91,7 +92,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group" ng-hide="packageObj.navigationType === 'USER'">
+                        <div class="form-group" ng-hide="packageObj.navigationType === 'USER' || packageObj.navigationType === 'LICENSE' ">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Veery Task</label>
 
                             <div class="col-md-4 col-sm-4 col-xs-12">
@@ -101,7 +102,7 @@
                                 </label>
                             </div>
                         </div>
-                        <div class="form-group" ng-hide="packageObj.navigationType === 'USER'">
+                        <div class="form-group" ng-hide="packageObj.navigationType === 'USER' || packageObj.navigationType === 'LICENSE' ">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Veery Console</label>
 
                             <div class="col-md-4 col-sm-4 col-xs-12">
@@ -150,7 +151,7 @@
                                     </div>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" ng-hide="packageObj.navigationType === 'LICENSE' ">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Console Access Limits</label>
 
                             <div class="col-md-4 col-sm-4 col-xs-12">
@@ -178,7 +179,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group" ng-hide="packageObj.navigationType === 'USER'">
+                        <div class="form-group" ng-hide="packageObj.navigationType === 'USER' || packageObj.navigationType === 'LICENSE'">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Space Limits</label>
 
                             <div class="col-md-4 col-sm-4 col-xs-12">
