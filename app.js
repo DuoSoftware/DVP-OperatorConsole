@@ -212,16 +212,18 @@ opConsoleApp.config(
         });
     },
   ],
-  function () {}
+  function () { }
 );
 
 //app base URL
 var baseUrls = {
-  userServiceBaseUrl: "https://app.facetone.com:1443/DVP/API/1.0.0.0/", //app.facetone.com:1443
+
+
+  groupServiceBaseUrl: "https://app.facetone.com:1443/DVP/API/1.0.0.0/",
   userServiceBaseUrl: "https://app.facetone.com:1443/DVP/API/1.0.0.0/",
-  userServiceBaseUrl: "https://app.facetone.com:1443/DVP/API/1.0.0.0/",
-  userServiceBaseUrl: "https://app.facetone.com:1443/DVP/API/1.0.0.0/",
-  userServiceBaseUrl: "https://app.facetone.com:1443/DVP/API/1.0.0.0/",
+  authServiceBaseUrl: "https://app.facetone.com:1443/DVP/API/1.0.0.0/",
+  organizationServiceBaseUrl: "https://app.facetone.com:1443/DVP/API/1.0.0.0/",
+  packagingServiceBaseUrl: "https://app.facetone.com:1443/DVP/API/1.0.0.0/",
   monitorServerUrl:
     "https://app.facetone.com:1443/DVP/API/1.0.0.0/MonitorRestAPI/",
   sipUserEndpointService: "https://app.facetone.com:1443/DVP/API/1.0.0.0/", // 'https://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/',

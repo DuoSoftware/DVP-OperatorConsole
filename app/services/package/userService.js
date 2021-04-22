@@ -10,7 +10,7 @@
         var getAllPackages = function () {
             return $http({
                 method: 'GET',
-                url: baseUrls.userServiceBaseUrl + 'Packages'
+                url: baseUrls.packagingServiceBaseUrl + 'Packages'
             }).then(function (resp) {
                 return resp.data;
             });
@@ -19,7 +19,7 @@
         var createNewPackage = function (veeryPackage) {
             return $http({
                 method: 'POST',
-                url: baseUrls.userServiceBaseUrl + 'Package',
+                url: baseUrls.packagingServiceBaseUrl + 'Package',
                 data: veeryPackage
             }).then(function (resp) {
                 return resp.data;
@@ -29,7 +29,7 @@
         var updatePackage = function (veeryPackage) {
             return $http({
                 method: 'PUT',
-                url: baseUrls.userServiceBaseUrl + 'Package/' + veeryPackage.packageName,
+                url: baseUrls.packagingServiceBaseUrl + 'Package/' + veeryPackage.packageName,
                 data: veeryPackage
             }).then(function (resp) {
                 return resp.data;
@@ -39,7 +39,7 @@
         var removePackage = function (veeryPackageName) {
             return $http({
                 method: 'DELETE',
-                url: baseUrls.userServiceBaseUrl + 'Package/' + veeryPackageName
+                url: baseUrls.packagingServiceBaseUrl + 'Package/' + veeryPackageName
             }).then(function (resp) {
                 return resp.data;
             });
@@ -59,7 +59,7 @@
         var getAllUnits = function () {
             return $http({
                 method: 'GET',
-                url: baseUrls.userServiceBaseUrl + 'PackageUnits'
+                url: baseUrls.packagingServiceBaseUrl + 'PackageUnits'
             }).then(function (resp) {
                 return resp.data;
             });
@@ -68,7 +68,7 @@
         var createNewUnit = function (veeryUnit) {
             return $http({
                 method: 'POST',
-                url: baseUrls.userServiceBaseUrl + 'PackageUnit',
+                url: baseUrls.packagingServiceBaseUrl + 'PackageUnit',
                 data: veeryUnit
             }).then(function (resp) {
                 return resp.data;
@@ -78,7 +78,7 @@
         var updateUnit = function (veeryUnit) {
             return $http({
                 method: 'PUT',
-                url: baseUrls.userServiceBaseUrl + 'PackageUnit/' + veeryUnit.unitName,
+                url: baseUrls.packagingServiceBaseUrl + 'PackageUnit/' + veeryUnit.unitName,
                 data: veeryUnit
             }).then(function (resp) {
                 return resp.data;
@@ -88,7 +88,7 @@
         var removeUnit = function (veeryUnitName) {
             return $http({
                 method: 'DELETE',
-                url: baseUrls.userServiceBaseUrl + 'PackageUnit/' + veeryUnitName
+                url: baseUrls.packagingServiceBaseUrl + 'PackageUnit/' + veeryUnitName
             }).then(function (resp) {
                 return resp.data;
             });
@@ -100,7 +100,7 @@
         var createNewCompany = function (company) {
             return $http({
                 method: 'POST',
-                url: baseUrls.userServiceAuthUrl + 'auth/signup',
+                url: baseUrls.authServiceBaseUrl + 'auth/signup',
                 data: company
             }).then(function (resp) {
                 return resp.data;
@@ -112,7 +112,7 @@
         var getCompanyData = function (companyId) {
             return $http({
                 method: 'GET',
-                url: baseUrls.userServiceBaseUrl + 'Tenant/Company/' + companyId
+                url: baseUrls.organizationServiceBaseUrl + 'Tenant/Company/' + companyId
             }).then(function (resp) {
                 return resp.data;
             }).catch(function (ex) {
@@ -123,7 +123,7 @@
         var assignPackage = function (param) {
             return $http({
                 method: 'PUT',
-                url: baseUrls.userServiceBaseUrl + 'Organisation/' + param.companyId + '/Package/' + param.packageName
+                url: baseUrls.organizationServiceBaseUrl + 'Organisation/' + param.companyId + '/Package/' + param.packageName
             }).then(function (resp) {
                 return resp.data;
             }).catch(function (ex) {
@@ -134,8 +134,8 @@
         var assignUnit = function (param) {
             return $http({
                 method: 'PUT',
-                url: baseUrls.userServiceBaseUrl + 'Organisation/' + param.companyId + '/Package/' +
-                param.packageName + '/Unit/' + param.unit.unitName + '/' + param.topUpCount
+                url: baseUrls.organizationServiceBaseUrl + 'Organisation/' + param.companyId + '/Package/' +
+                    param.packageName + '/Unit/' + param.unit.unitName + '/' + param.topUpCount
             }).then(function (resp) {
                 return resp.data;
             }).catch(function (ex) {

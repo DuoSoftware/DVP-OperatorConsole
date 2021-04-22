@@ -9,7 +9,7 @@ opConsoleApp.factory("companyInfoServices", function ($http, baseUrls) {
   var getAllCompanyDetails = function () {
     return $http({
       method: "GET",
-      url: baseUrls.userServiceBaseUrl + "TenantInfo/company",
+      url: baseUrls.organizationServiceBaseUrl + "TenantInfo/company",
     }).then(function (resp) {
       return resp.data;
     });
@@ -18,7 +18,7 @@ opConsoleApp.factory("companyInfoServices", function ($http, baseUrls) {
   var getCurrentCompanyById = function (param) {
     return $http({
       method: "GET",
-      url: baseUrls.userServiceBaseUrl + "Tenant/Company/" + param.companyId,
+      url: baseUrls.organizationServiceBaseUrl + "Tenant/Company/" + param.companyId,
     }).then(function (resp) {
       return resp.data;
     });
@@ -28,7 +28,7 @@ opConsoleApp.factory("companyInfoServices", function ($http, baseUrls) {
     return $http({
       method: "PUT",
       url:
-        baseUrls.userServiceBaseUrl +
+        baseUrls.organizationServiceBaseUrl +
         "Organisation/" +
         param.companyId +
         "/Activate/" +
