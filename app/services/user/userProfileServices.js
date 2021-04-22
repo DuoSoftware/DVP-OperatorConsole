@@ -25,11 +25,11 @@
             })
         };
 
-        var getUsersWithPaging = function (page,size) {
+        var getUsersWithPaging = function (page, size) {
 
             return $http({
                 method: 'GET',
-                url: baseUrls.userServiceBaseUrl +"Users/"+"?Page="+page+"&Size="+size
+                url: baseUrls.userServiceBaseUrl + "Users/" + "?Page=" + page + "&Size=" + size
             }).then(function (response) {
                 if (response.data && response.data.IsSuccess) {
                     return response.data.Result;
@@ -44,7 +44,7 @@
 
             return $http({
                 method: 'GET',
-                url: baseUrls.userServiceBaseUrl +"UserCount"
+                url: baseUrls.userServiceBaseUrl + "UserCount"
             }).then(function (response) {
                 if (response.data && response.data.IsSuccess) {
                     return response.data.Result;
@@ -111,7 +111,7 @@
         var getUserGroups = function () {
             return $http({
                 method: 'GET',
-                url: baseUrls.userServiceBaseUrl + 'UserGroups'
+                url: baseUrls.groupServiceBaseUrl + 'UserGroups'
             }).then(function (resp) {
                 return resp.data;
             })
@@ -120,7 +120,7 @@
         var getConsolidatedUserGroups = function () {
             return $http({
                 method: 'GET',
-                url: baseUrls.userServiceBaseUrl + 'ConsolidatedUserGroups/consolidated'
+                url: baseUrls.groupServiceBaseUrl + 'ConsolidatedUserGroups/consolidated'
             }).then(function (resp) {
                 return resp.data;
             })
@@ -137,7 +137,7 @@
         var addUserGroup = function (userObj) {
             return $http({
                 method: 'POST',
-                url: baseUrls.userServiceBaseUrl + 'UserGroup',
+                url: baseUrls.groupServiceBaseUrl + 'UserGroup',
                 data: userObj
             }).then(function (resp) {
                 return resp.data;
@@ -146,7 +146,7 @@
         var removeUserFromGroup = function (gripID, userID) {
             return $http({
                 method: 'DELETE',
-                url: baseUrls.userServiceBaseUrl + 'UserGroup/' + gripID + "/User/" + userID
+                url: baseUrls.groupServiceBaseUrl + 'UserGroup/' + gripID + "/User/" + userID
             }).then(function (resp) {
                 return resp.data;
             })
@@ -154,7 +154,7 @@
         var addMemberToGroup = function (gripID, userID) {
             return $http({
                 method: 'PUT',
-                url: baseUrls.userServiceBaseUrl + 'UserGroup/' + gripID + "/User/" + userID
+                url: baseUrls.groupServiceBaseUrl + 'UserGroup/' + gripID + "/User/" + userID
             }).then(function (resp) {
                 return resp.data;
             })
@@ -196,18 +196,17 @@
         var getOrganization = function () {
             return $http({
                 method: 'GET',
-                url: baseUrls.userServiceBaseUrl + 'Organisation'
+                url: baseUrls.organizationServiceBaseUrl + 'Organisation'
             }).then(function (resp) {
                 return resp.data;
             })
         };
 
-        var getMyOrganization = function(companyId)
-        {
+        var getMyOrganization = function (companyId) {
 
             return $http({
                 method: 'GET',
-                url: baseUrls.userServiceBaseUrl + 'Tenant/Company/' + companyId
+                url: baseUrls.organizationServiceBaseUrl + 'Tenant/Company/' + companyId
             }).then(function (resp) {
                 return resp.data;
             })
@@ -226,7 +225,7 @@
         };
 
 
-        var AddSelectedNavigationToUser = function (userName,consoleName,navigationData) {
+        var AddSelectedNavigationToUser = function (userName, consoleName, navigationData) {
             return $http({
                 method: 'put',
                 url: baseUrls.userServiceBaseUrl + "ReportUser/" + userName + "/Console/" + consoleName + "/Navigation",
