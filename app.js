@@ -62,7 +62,7 @@ opConsoleApp.config(
       $authProvider
     ) {
       //auth URL
-      var authProviderUrl = "http://authservice.facetone.lk/";
+      var authProviderUrl = "https://app.facetone.com:1443/";
       $authProvider.loginUrl = authProviderUrl + "auth/login";
       $authProvider.signupUrl = authProviderUrl + "auth/signup";
 
@@ -212,40 +212,42 @@ opConsoleApp.config(
         });
     },
   ],
-  function () {}
+  function () { }
 );
 
 //app base URL
 var baseUrls = {
-  userServiceBaseUrl: "http://userservice.facetone.lk/DVP/API/1.0.0.0/", //app.facetone.com:1443
-  userServiceBaseUrl: "http://userservice.facetone.lk/DVP/API/1.0.0.0/",
-  organizationServiceBaseUrl: "http://organizationservice.facetone.lk/DVP/API/1.0.0.0/",
-  packageServiceBaseUrl: "http://packagingservice.facetone.lk/DVP/API/1.0.0.0/",
-  userServiceBaseUrl: "http://userservice.facetone.lk/DVP/API/1.0.0.0/",
+
+
+  groupServiceBaseUrl: "https://app.facetone.com:1443/DVP/API/1.0.0.0/",
+  userServiceBaseUrl: "https://app.facetone.com:1443/DVP/API/1.0.0.0/",
+  authServiceBaseUrl: "https://app.facetone.com:1443/DVP/API/1.0.0.0/",
+  organizationServiceBaseUrl: "https://app.facetone.com:1443/DVP/API/1.0.0.0/",
+  packagingServiceBaseUrl: "https://app.facetone.com:1443/DVP/API/1.0.0.0/",
   monitorServerUrl:
-      "http://monitorrestapi.facetone.lk/DVP/API/1.0.0.0/MonitorRestAPI/",
-  sipUserEndpointService: "http://sipuserendpointservice.facetone.lk/DVP/API/1.0.0.0/", // 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/',
-  userServiceAuthUrl: "http://userservice.facetone.lk/",
+    "https://app.facetone.com:1443/DVP/API/1.0.0.0/MonitorRestAPI/",
+  sipUserEndpointService: "https://app.facetone.com:1443/DVP/API/1.0.0.0/", // 'https://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/',
+  userServiceAuthUrl: "https://app.facetone.com:1443/",
   resourceServiceBaseUrl:
-      "http://resourceservice.facetone.lk/DVP/API/1.0.0.0/ResourceManager/", // resourceservice.app.veery.cloud
-  phoneNumTrunkServiceBaseURL: "http://phonenumbertrunkservice.facetone.lk/DVP/API/1.0.0.0/",
-  ruleServiceBaseURL: "http://ruleservice.facetone.lk/DVP/API/1.0.0.0/",
-  limitHandlerBaseURL: "http://limithandler.facetone.lk/DVP/API/1.0.0.0/",
-  clusterConfigurationBaseURL: "http://clusterconfig.facetone.lk/DVP/API/1.0.0.0/",
-  ipMessageURL: "http://ipmessagingservice.facetone.lk/",
-  billingserviceURL: "http://billingservice.facetone.lk/DVP/API/1.0.0.0/Billing/",
-  notification: "http://notificationservice.facetone.lk/",
-  authUrl: "http://authservice.facetone.lk/",
-  cdrProcessor: "http://cdrprocessor.facetone.lk/DVP/API/1.0.0.0/CallCDR/", //app.facetone.com:1443
-  voxboneApi: "http://voxboneapi.facetone.lk/DVP/API/1.0.0.0/voxbone/",
-  diginEngineBaseUrl: "http://poc-digin-new/DigInEngine/",
+    "https://app.facetone.com:1443/DVP/API/1.0.0.0/ResourceManager/", // resourceservice.app.veery.cloud
+  phoneNumTrunkServiceBaseURL: "https://app.facetone.com:1443/DVP/API/1.0.0.0/",
+  ruleServiceBaseURL: "https://app.facetone.com:1443/DVP/API/1.0.0.0/",
+  limitHandlerBaseURL: "https://app.facetone.com:1443/DVP/API/1.0.0.0/",
+  clusterConfigurationBaseURL: "https://app.facetone.com:1443/DVP/API/1.0.0.0/",
+  ipMessageURL: "https://app.facetone.com:90/",
+  billingserviceURL: "https://app.facetone.com:1443/DVP/API/1.0.0.0/Billing/",
+  notification: "https://app.facetone.com:1443",
+  authUrl: "https://app.facetone.com:1443",
+  cdrProcessor: "https://app.facetone.com:1443/DVP/API/1.0.0.0/CallCDR/", //app.facetone.com:1443
+  voxboneApi: "https://app.facetone.com:1443/DVP/API/1.0.0.0/voxbone/",
+  diginEngineBaseUrl: "https://poc-digin-new/DigInEngine/",
 };
 
 opConsoleApp.constant("moment", moment);
 opConsoleApp.constant("baseUrls", baseUrls);
 
 opConsoleApp.constant("config", {
-  Auth_API: "http://userservice.facetone.lk/",
+  Auth_API: "https://app.facetone.com:1443/",
   appVersion: 1.0,
   client_Id_secret: "ae849240-2c6d-11e6-b274-a9eec7dab26b:6145813102144258048",
   clusterId: "2",
