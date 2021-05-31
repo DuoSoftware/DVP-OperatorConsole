@@ -593,7 +593,7 @@ body .container.body .right_col {
 .table-header-txt {
     font-size: 14px;
     line-height: 42px;
-    text-align: left;
+    text-align: center;
 }
 
 .tbl-header-left-boarder {
@@ -621,6 +621,7 @@ body .container.body .right_col {
     font-family: "roboto-Thin", sans-serif;
     font-size: 15px;
     padding-left: 5px;
+    text-align: center;
 }
 
 /* company summary */
