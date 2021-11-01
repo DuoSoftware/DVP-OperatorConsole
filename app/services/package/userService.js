@@ -19,7 +19,8 @@
         var createNewPackage = function (veeryPackage) {
             return $http({
                 method: 'POST',
-                url: baseUrls.userServiceBaseUrl + 'Package',
+                // url: baseUrls.userServiceBaseUrl + 'Package',
+                url: baseUrls.authUrl + 'Package',
                 data: veeryPackage
             }).then(function (resp) {
                 return resp.data;
