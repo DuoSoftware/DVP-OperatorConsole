@@ -43,12 +43,17 @@ opConsoleApp.controller('companyInfoCtrl', function ($scope, ngNotify, companyIn
     $scope.isLoadingCompany = false;
     $scope.searchCriteria = "";
     var getAllCompanyInfo = function () {
+        $scope.totalUsers = 0;
         $scope.isLoadingCompany = true;
         companyInfoServices.getAllCompanyDetails().then(function (data) {
             $scope.isLoadingCompany = false;
             if (data.IsSuccess) {
                 $scope.companyObj = data.Result;
                 $scope.companyFilteredList = angular.copy($scope.companyObj);
+                $scope.companyFilteredList.forEach(function myFunction(item, index) {
+                    $scope.totalUsers = $scope.totalUsers + parseInt(item.activeUsers);
+                });
+                console.log("TOTAL USERS : " + $scope.totalUsers);
             }
         }, function (err) {
             console.log(err);
