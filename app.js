@@ -20,6 +20,7 @@ var opConsoleApp = angular.module("opConsoleApp", [
   "ngTagsInput",
   "btford.socket-io",
   "cp.ngConfirm",
+  "ngFileUpload",
   "ui.grid",
   "ui.grid.importer",
   "ui.grid.pinning",
@@ -62,7 +63,7 @@ opConsoleApp.config(
       $authProvider
     ) {
       //auth URL
-      var authProviderUrl = "http://authservice.facetone.lk/";
+      var authProviderUrl = "http://authservice.facetonelite.com/";
       $authProvider.loginUrl = authProviderUrl + "auth/login";
       $authProvider.signupUrl = authProviderUrl + "auth/signup";
 
@@ -217,27 +218,26 @@ opConsoleApp.config(
 
 //app base URL
 var baseUrls = {
-  userServiceBaseUrl: "http://userservice.facetone.lk/DVP/API/1.0.0.0/", //app.facetone.com:1443
-  userServiceBaseUrl: "http://userservice.facetone.lk/DVP/API/1.0.0.0/",
-  organizationServiceBaseUrl: "http://organizationservice.facetone.lk/DVP/API/1.0.0.0/",
-  packageServiceBaseUrl: "http://packagingservice.facetone.lk/DVP/API/1.0.0.0/",
-  userServiceBaseUrl: "http://userservice.facetone.lk/DVP/API/1.0.0.0/",
+  userServiceBaseUrl: "http://userservice.facetonelite.com/DVP/API/1.0.0.0/", //app.facetone.com:1443
+  userServiceBaseUrl: "http://userservice.facetonelite.com/DVP/API/1.0.0.0/",
+  organizationServiceBaseUrl: "http://organizationservice.facetonelite.com/DVP/API/1.0.0.0/",
+  packageServiceBaseUrl: "http://packagingservice.facetonelite.com/DVP/API/1.0.0.0/",
+  userServiceBaseUrl: "http://userservice.facetonelite.com/DVP/API/1.0.0.0/",
   monitorServerUrl:
-      "http://monitorrestapi.facetone.lk/DVP/API/1.0.0.0/MonitorRestAPI/",
-  sipUserEndpointService: "http://sipuserendpointservice.facetone.lk/DVP/API/1.0.0.0/", // 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/',
-  userServiceAuthUrl: "http://userservice.facetone.lk/",
-  resourceServiceBaseUrl:
-      "http://resourceservice.facetone.lk/DVP/API/1.0.0.0/ResourceManager/", // resourceservice.app.veery.cloud
-  phoneNumTrunkServiceBaseURL: "http://phonenumbertrunkservice.facetone.lk/DVP/API/1.0.0.0/",
-  ruleServiceBaseURL: "http://ruleservice.facetone.lk/DVP/API/1.0.0.0/",
-  limitHandlerBaseURL: "http://limithandler.facetone.lk/DVP/API/1.0.0.0/",
-  clusterConfigurationBaseURL: "http://clusterconfig.facetone.lk/DVP/API/1.0.0.0/",
-  ipMessageURL: "http://ipmessagingservice.facetone.lk/",
-  billingserviceURL: "http://billingservice.facetone.lk/DVP/API/1.0.0.0/Billing/",
-  notification: "http://notificationservice.facetone.lk/",
-  authUrl: "http://authservice.facetone.lk/",
-  cdrProcessor: "http://cdrprocessor.facetone.lk/DVP/API/1.0.0.0/CallCDR/", //app.facetone.com:1443
-  voxboneApi: "http://voxboneapi.facetone.lk/DVP/API/1.0.0.0/voxbone/",
+      "http://monitorrestapi.facetonelite.com/DVP/API/1.0.0.0/MonitorRestAPI/",
+  sipUserEndpointService: "http://sipuserendpointservice.facetonelite.com/DVP/API/1.0.0.0/", // 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/',
+  userServiceAuthUrl: "http://userservice.facetonelite.com/",
+  resourceServiceBaseUrl:"http://resourceservice.facetonelite.com/DVP/API/1.0.0.0/ResourceManager/", // resourceservice.app.veery.cloud
+  phoneNumTrunkServiceBaseURL: "http://localhost:8818/DVP/API/1.0.0.0/",
+  ruleServiceBaseURL: "http://ruleservice.facetonelite.com/DVP/API/1.0.0.0/",
+  limitHandlerBaseURL: "http://limithandler.facetonelite.com/DVP/API/1.0.0.0/",
+  clusterConfigurationBaseURL: "http://clusterconfig.facetonelite.com/DVP/API/1.0.0.0/",
+  ipMessageURL: "http://ipmessagingservice.facetonelite.com/",
+  billingserviceURL: "http://billingservice.facetonelite.com/DVP/API/1.0.0.0/Billing/",
+  notification: "http://notificationservice.facetonelite.com/",
+  authUrl: "http://authservice.facetonelite.com/",
+  cdrProcessor: "http://cdrprocessor.facetonelite.com/DVP/API/1.0.0.0/CallCDR/", //app.facetone.com:1443
+  voxboneApi: "http://voxboneapi.facetonelite.com/DVP/API/1.0.0.0/voxbone/",
   diginEngineBaseUrl: "http://poc-digin-new/DigInEngine/",
 };
 
@@ -245,7 +245,7 @@ opConsoleApp.constant("moment", moment);
 opConsoleApp.constant("baseUrls", baseUrls);
 
 opConsoleApp.constant("config", {
-  Auth_API: "http://userservice.facetone.lk/",
+  Auth_API: "http://userservice.facetonelite.com/",
   appVersion: 1.0,
   client_Id_secret: "ae849240-2c6d-11e6-b274-a9eec7dab26b:6145813102144258048",
   clusterId: "2",
