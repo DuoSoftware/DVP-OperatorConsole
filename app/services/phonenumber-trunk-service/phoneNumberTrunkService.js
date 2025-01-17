@@ -108,20 +108,32 @@
                 return resp.data;
             })
         };
-
-        var addPhoneNumberTenant = function(phnNumInfo)
+        var addPhoneNumberTenant = function(phnNumInfoArray)
         {
-            var jsonStr = JSON.stringify(phnNumInfo);
+            var jsonStr = JSON.stringify(phnNumInfoArray);
 
             return $http({
                 method: 'POST',
                 url: baseUrls.phoneNumTrunkServiceBaseURL + 'PhoneNumberTrunkApi/TrunkNumberForTenant',
-                data : jsonStr
+                data: jsonStr
             }).then(function(resp)
             {
                 return resp.data;
             })
         };
+        // var addPhoneNumberTenant = function(phnNumInfo)
+        // {
+        //     var jsonStr = JSON.stringify(phnNumInfo);
+
+        //     return $http({
+        //         method: 'POST',
+        //         url: baseUrls.phoneNumTrunkServiceBaseURL + 'PhoneNumberTrunkApi/TrunkNumberForTenant',
+        //         data : jsonStr
+        //     }).then(function(resp)
+        //     {
+        //         return resp.data;
+        //     })
+        // };
 
         var updatePhoneNumberTenant = function(phnNumInfo)
         {

@@ -568,20 +568,32 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, $timeout, ng
                     isValidRow = false;
                 }
             });
-        // Add company ID based on the company name in the row
-        if (isValidRow && rowData["ClientCompany"]) {
-            // Find the company ID corresponding to the CompanyName
-            let company = $scope.companyList.find(function(companyItem) {
-                return companyItem.Name === rowData["ClientCompany"];
-            });
-
-            if (company) {
-                rowData["ClientCompany"] = company.Id; // Add the companyId to the row
-            } else {
-                rowData["ClientCompany"] = null; // If no matching company found, set as null
+            if (isValidRow && rowData["ClientCompany"]) {
+                console.log("ClientCompany value in rowData: ", rowData["ClientCompany"]);
+                console.log("Company List: ", $scope.companyList);
+            
+                let company = $scope.companyList.find(function(companyItem) {
+                    const companyName = companyItem.companyName ? companyItem.companyName.trim().toLowerCase() : '';
+                    const clientCompany = rowData["ClientCompany"] ? rowData["ClientCompany"].trim().toLowerCase() : '';
+                    return companyName === clientCompany;
+                });
+                if (company) {
+                    rowData["ClientCompany"] = company.companyId;
+                } else {
+                    rowData["ClientCompany"] = null;
+                }
+            } else if (!rowData["ClientCompany"]) {
+                console.warn("Missing ClientCompany in row data: ", rowData);
             }
-        }
-    
+            if (rowData["PhoneNumbers"]) {
+                const originalPhoneNumber = rowData["PhoneNumbers"];
+                rowData["PhoneNumbers"] = rowData["PhoneNumbers"].startsWith('0')
+                    ? rowData["PhoneNumbers"]
+                    : '0' + rowData["PhoneNumbers"];
+                console.log(
+                    `Original Phone: ${originalPhoneNumber}, Updated Phone: ${rowData["PhoneNumbers"]}`
+                );
+            }
             // Only include valid rows (no empty columns)
             return isValidRow ? rowData : null;
         }).filter(function(row) {
@@ -668,6 +680,7 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, $timeout, ng
                 });
             }
             $scope.status = 'Save Grid Data';  // Reset the status to the original button text
+            $scope.refreshData(); // This will reset the grid and the file input
         });
     };
     
@@ -1075,34 +1088,34 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, $timeout, ng
 
 
 
-    // $scope.editPhone = function(phn)
-    // {
-    //     angular.copy(phn, $scope.phnNum);
+    $scope.editPhone = function(phn)
+    {
+        angular.copy(phn, $scope.phnNum);
 
-    //     if(phn.LimitInfoInbound)
-    //     {
-    //         $scope.phnNum.InboundLimit = phn.LimitInfoInbound.MaxCount;
-    //     }
+        if(phn.LimitInfoInbound)
+        {
+            $scope.phnNum.InboundLimit = phn.LimitInfoInbound.MaxCount;
+        }
 
-    //     if(phn.LimitInfoOutbound)
-    //     {
-    //         $scope.phnNum.OutboundLimit = phn.LimitInfoOutbound.MaxCount;
-    //     }
+        if(phn.LimitInfoOutbound)
+        {
+            $scope.phnNum.OutboundLimit = phn.LimitInfoOutbound.MaxCount;
+        }
 
-    //     if(phn.LimitInfoBoth)
-    //     {
-    //         $scope.phnNum.BothLimit = phn.LimitInfoBoth.MaxCount;
-    //     }
+        if(phn.LimitInfoBoth)
+        {
+            $scope.phnNum.BothLimit = phn.LimitInfoBoth.MaxCount;
+        }
 
-    //     $scope.phnNum.ClientCompany = phn.CompanyId.toString();
+        $scope.phnNum.ClientCompany = phn.CompanyId.toString();
 
-    //     $scope.appState = 'PHONEUPDATE';
+        $scope.appState = 'PHONEUPDATE';
 
-    //     $scope.collapsedButton = 'Back To Trunk List';
-    //     $scope.dynamicCss = 'trunk-app-button-dynamic-back';
-    //     $scope.status = 'Update';
+        $scope.collapsedButton = 'Back To Trunk List';
+        $scope.dynamicCss = 'trunk-app-button-dynamic-back';
+        $scope.status = 'Update';
 
-    // };
+    };
 
 
     $scope.editTrunk = function(trunk)
