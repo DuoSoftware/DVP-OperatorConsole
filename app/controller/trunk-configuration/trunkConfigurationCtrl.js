@@ -488,106 +488,281 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, $timeout, ng
         }
 
     };
+   
+    // $scope.gridOptions = {
+    //     enableRowHashing: false,
+    //     enableGridMenu: false,
+    //     data: 'data',
+    //     importerDataAddCallback: function (grid, newObjects) {
+    //         $scope.data = newObjects;
+    //     },
+    //     onRegisterApi: function (gridApi) {
+    //         $scope.gridApi = gridApi;
+    //     },
+    //     importerProcessHeaders: function (hData, headerArray) {
+    //         var myHeaderColumns = [];
+    //         var thisCol;
 
-    $scope.addPhoneNumber = function ()
-    {
-        $scope.phnNum.TrunkId = $scope.currentTrunk.id;
+    //         headerArray.forEach(function (value, index) {
 
-        if($scope.appState === 'PHONEUPDATE')
-        {
-            phnNumTrunkService.updatePhoneNumberTenant($scope.phnNum).then(function (data) {
-                if (data.IsSuccess)
-                {
-                    ngNotify.set('Phone number updated successfully', {
-                        position: 'top',
-                        sticky: false,
-                        duration: 3000,
-                        type: 'success'
-                    });
+    //             thisCol = mySpecialLookupFunction(value, index);
+    //             if (myHeaderColumns.indexOf(thisCol.name) === -1) {
+    //                 myHeaderColumns.push(thisCol.name);
+    //                 $scope.headerData.push({name: thisCol.name, index: index});
+    //             } else {
+    //                 // $scope.showAlert('Campaign Number Upload', errMsg, 'error');
+    //             }
 
-                    $scope.showNumberList($scope.currentTrunk);
-                }
-                else
-                {
-                    var errMsg = "";
-                    if (data.Exception && data.Exception.Message) {
-                        errMsg = data.Exception.Message;
-                    }
+    //         });
 
-                    if (data.CustomMessage) {
-                        errMsg = data.CustomMessage;
-                    }
-                    ngNotify.set(errMsg, {
-                        position: 'top',
-                        sticky: false,
-                        duration: 3000,
-                        type: 'error'
-                    });
-                }
-
-            }, function (err)
-            {
-                var errMsg = "Error updating phone number";
-                if (err.statusText) {
-                    errMsg = err.statusText;
-                }
-                ngNotify.set(errMsg, {
-                    position: 'top',
-                    sticky: false,
-                    duration: 3000,
-                    type: 'error'
-                });
-            });
+    //         return myHeaderColumns;
+    //     }
+    // };
+    $scope.gridOptions = {
+        columnDefs: [],
+        data: [],
+        onRegisterApi: function(gridApi) {
+            $scope.gridApi = gridApi; // Store the gridApi reference
         }
-        else
-        {
-            phnNumTrunkService.addPhoneNumberTenant($scope.phnNum).then(function (data) {
-                if (data.IsSuccess)
-                {
-                    ngNotify.set('Phone number added successfully', {
-                        position: 'top',
-                        sticky: false,
-                        duration: 3000,
-                        type: 'success'
-                    });
-
-                    $scope.showNumberList($scope.currentTrunk);
-                }
-                else
-                {
-                    var errMsg = "";
-                    if (data.Exception && data.Exception.Message) {
-                        errMsg = data.Exception.Message;
-                    }
-
-                    if (data.CustomMessage) {
-                        errMsg = data.CustomMessage;
-                    }
-                    ngNotify.set(errMsg, {
-                        position: 'top',
-                        sticky: false,
-                        duration: 3000,
-                        type: 'error'
-                    });
-                }
-
-            }, function (err)
-            {
-                var errMsg = "Error adding phone number";
-                if (err.statusText) {
-                    errMsg = err.statusText;
-                }
-                ngNotify.set(errMsg, {
-                    position: 'top',
-                    sticky: false,
-                    duration: 3000,
-                    type: 'error'
-                });
-            });
-        }
-
-
     };
+    
+    // Function to handle file upload
+    $scope.uploadFile = function(element) {
+        var file = element.files[0];
+        if (file && file.name.endsWith('.csv')) {
+            var reader = new FileReader();
+            reader.onload = function(event) {
+                var csvData = event.target.result;
+                $scope.processCSV(csvData);
+            };
+            reader.readAsText(file);
+        }
+    };
+    
+    // Function to process CSV data
+    $scope.processCSV = function(csvData) {
+        var lines = csvData.split('\n');
+        var headers = lines[0].split(',');
+    
+        // Normalize headers (convert to lowercase and trim spaces)
+        var normalizedHeaders = headers.map(function(header) {
+            return header.trim().toLowerCase().replace(/\s+/g, '_'); // Normalize space to underscore and convert to lowercase
+        });
+    
+        // Set column definitions for the grid
+        $scope.gridOptions.columnDefs = normalizedHeaders.map(function(header) {
+            return { name: header };
+        });
+    
+        // Set data for the grid and filter out rows with empty columns
+        $scope.gridOptions.data = lines.slice(1).map(function(line) {
+            var row = line.split(',');
+            var rowData = {};
+            var isValidRow = true;
+    
+            // Check each cell in the row to ensure it's not empty
+            row.forEach(function(cell, index) {
+                rowData[normalizedHeaders[index]] = cell.trim();
+                // If any cell is empty, mark the row as invalid
+                if (cell.trim() === '') {
+                    isValidRow = false;
+                }
+            });
+    
+            // Only include valid rows (no empty columns)
+            return isValidRow ? rowData : null;
+        }).filter(function(row) {
+            return row !== null; // Remove null entries from the final data
+        });
+    
+        $scope.$apply();
+    };
+    
+    $scope.refreshData = function () {
+        $scope.gridOptions.columnDefs = [];
+        $scope.gridOptions.data = [];
+        $scope.$apply();
+        document.getElementById('files123').value = '';
+    };
+    $scope.apply = function (fn) {
+        var phase = this.$root.$$phase;
+        if (phase === "$apply" || phase === "$digest") {
+            if (fn && typeof fn === "function") fn();
+        } else {
+            this.$apply(fn);
+        }
+    };
+   
+        $scope.addPhoneNumberBulk = function () {
+            // Assuming the grid data or bulk data is stored in $scope.gridOptions.data
+           // let bulkData = $scope.data;
+            let bulkData = $scope.gridOptions.data; // Modify this based on where your grid data is stored
+            $scope.status = 'Saving...'; // Set status to 'Saving...'
+            
+            // Initialize a counter for success and error tracking
+            let successCount = 0;
+            let errorCount = 0;
+            
+            // Iterate over each phone number in the bulk data
+            angular.forEach(bulkData, function(phnNum) {
+                phnNum.TrunkId= $scope.currentTrunk.id;
+                
+                let savePromise;
+        
+                if ($scope.appState === 'PHONEUPDATE') {
+                    // If the app is in "PHONEUPDATE" state, update the phone number
+                    savePromise = phnNumTrunkService.updatePhoneNumberTenant(phnNum);
+                } else {
+                    // Otherwise, add the phone number
+                    savePromise = phnNumTrunkService.addPhoneNumberTenant(phnNum);
+                }
+        
+                savePromise.then(function (data) {
+                    if (data.IsSuccess) {
+                        successCount++;
+                    } else {
+                        errorCount++;
+                        var errMsg = data.Exception && data.Exception.Message ? data.Exception.Message : data.CustomMessage || 'Unknown error';
+                        ngNotify.set(errMsg, {
+                            position: 'top',
+                            sticky: false,
+                            duration: 3000,
+                            type: 'error'
+                        });
+                    }
+                }, function (err) {
+                    errorCount++;
+                    var errMsg = err.statusText || 'Error processing phone number';
+                    ngNotify.set(errMsg, {
+                        position: 'top',
+                        sticky: false,
+                        duration: 3000,
+                        type: 'error'
+                    });
+                });
+            });
+        
+            // After all promises have been processed, update the status
+            $q.all([savePromise]).finally(function() {
+                if (errorCount > 0) {
+                    ngNotify.set(successCount + ' phone numbers saved successfully, ' + errorCount + ' failed', {
+                        position: 'top',
+                        sticky: false,
+                        duration: 5000,
+                        type: 'warning'
+                    });
+                } else {
+                    ngNotify.set('All phone numbers saved successfully', {
+                        position: 'top',
+                        sticky: false,
+                        duration: 5000,
+                        type: 'success'
+                    });
+                }
+                $scope.status = 'Save Grid Data';  // Reset the status to the original button text
+            });
+        };
+        
+        
+    // $scope.addPhoneNumber = function ()
+    // {
+    //     $scope.phnNum.TrunkId = $scope.currentTrunk.id;
+
+    //     if($scope.appState === 'PHONEUPDATE')
+    //     {
+    //         phnNumTrunkService.updatePhoneNumberTenant($scope.phnNum).then(function (data) {
+    //             if (data.IsSuccess)
+    //             {
+    //                 ngNotify.set('Phone number updated successfully', {
+    //                     position: 'top',
+    //                     sticky: false,
+    //                     duration: 3000,
+    //                     type: 'success'
+    //                 });
+
+    //                 $scope.showNumberList($scope.currentTrunk);
+    //             }
+    //             else
+    //             {
+    //                 var errMsg = "";
+    //                 if (data.Exception && data.Exception.Message) {
+    //                     errMsg = data.Exception.Message;
+    //                 }
+
+    //                 if (data.CustomMessage) {
+    //                     errMsg = data.CustomMessage;
+    //                 }
+    //                 ngNotify.set(errMsg, {
+    //                     position: 'top',
+    //                     sticky: false,
+    //                     duration: 3000,
+    //                     type: 'error'
+    //                 });
+    //             }
+
+    //         }, function (err)
+    //         {
+    //             var errMsg = "Error updating phone number";
+    //             if (err.statusText) {
+    //                 errMsg = err.statusText;
+    //             }
+    //             ngNotify.set(errMsg, {
+    //                 position: 'top',
+    //                 sticky: false,
+    //                 duration: 3000,
+    //                 type: 'error'
+    //             });
+    //         });
+    //     }
+    //     else
+    //     {
+    //         phnNumTrunkService.addPhoneNumberTenant($scope.phnNum).then(function (data) {
+    //             if (data.IsSuccess)
+    //             {
+    //                 ngNotify.set('Phone number added successfully', {
+    //                     position: 'top',
+    //                     sticky: false,
+    //                     duration: 3000,
+    //                     type: 'success'
+    //                 });
+
+    //                 $scope.showNumberList($scope.currentTrunk);
+    //             }
+    //             else
+    //             {
+    //                 var errMsg = "";
+    //                 if (data.Exception && data.Exception.Message) {
+    //                     errMsg = data.Exception.Message;
+    //                 }
+
+    //                 if (data.CustomMessage) {
+    //                     errMsg = data.CustomMessage;
+    //                 }
+    //                 ngNotify.set(errMsg, {
+    //                     position: 'top',
+    //                     sticky: false,
+    //                     duration: 3000,
+    //                     type: 'error'
+    //                 });
+    //             }
+
+    //         }, function (err)
+    //         {
+    //             var errMsg = "Error adding phone number";
+    //             if (err.statusText) {
+    //                 errMsg = err.statusText;
+    //             }
+    //             ngNotify.set(errMsg, {
+    //                 position: 'top',
+    //                 sticky: false,
+    //                 duration: 3000,
+    //                 type: 'error'
+    //             });
+    //         });
+    //     }
+
+
+    // };
 
     var loadCompanyList = function()
     {
@@ -821,34 +996,34 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, $timeout, ng
 
 
 
-    $scope.editPhone = function(phn)
-    {
-        angular.copy(phn, $scope.phnNum);
+    // $scope.editPhone = function(phn)
+    // {
+    //     angular.copy(phn, $scope.phnNum);
 
-        if(phn.LimitInfoInbound)
-        {
-            $scope.phnNum.InboundLimit = phn.LimitInfoInbound.MaxCount;
-        }
+    //     if(phn.LimitInfoInbound)
+    //     {
+    //         $scope.phnNum.InboundLimit = phn.LimitInfoInbound.MaxCount;
+    //     }
 
-        if(phn.LimitInfoOutbound)
-        {
-            $scope.phnNum.OutboundLimit = phn.LimitInfoOutbound.MaxCount;
-        }
+    //     if(phn.LimitInfoOutbound)
+    //     {
+    //         $scope.phnNum.OutboundLimit = phn.LimitInfoOutbound.MaxCount;
+    //     }
 
-        if(phn.LimitInfoBoth)
-        {
-            $scope.phnNum.BothLimit = phn.LimitInfoBoth.MaxCount;
-        }
+    //     if(phn.LimitInfoBoth)
+    //     {
+    //         $scope.phnNum.BothLimit = phn.LimitInfoBoth.MaxCount;
+    //     }
 
-        $scope.phnNum.ClientCompany = phn.CompanyId.toString();
+    //     $scope.phnNum.ClientCompany = phn.CompanyId.toString();
 
-        $scope.appState = 'PHONEUPDATE';
+    //     $scope.appState = 'PHONEUPDATE';
 
-        $scope.collapsedButton = 'Back To Trunk List';
-        $scope.dynamicCss = 'trunk-app-button-dynamic-back';
-        $scope.status = 'Update';
+    //     $scope.collapsedButton = 'Back To Trunk List';
+    //     $scope.dynamicCss = 'trunk-app-button-dynamic-back';
+    //     $scope.status = 'Update';
 
-    };
+    // };
 
 
     $scope.editTrunk = function(trunk)
@@ -1148,4 +1323,5 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, $timeout, ng
     loadTranslations();
 
 
-});
+})
+

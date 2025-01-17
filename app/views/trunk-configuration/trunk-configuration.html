@@ -255,83 +255,36 @@
             </div>
             <div class="clearfix"></div>
             <br>
-
+            
             <div class="x-content">
 
-                <div class="form-group">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="col-md-4 col-sm-4 col-xs-12">
-                            <label>Phone Number *</label>
-                            <input type="text" ng-disabled="appState === 'PHONEUPDATE'" class="form-control"
-                                   ng-model="phnNum.PhoneNumber">
-                        </div>
-
-                        <div class="col-md-4 col-sm-4 col-xs-12">
-                            <label>Number Type *</label>
-                            <select class="select2_single form-control" tabindex="-1" aria-hidden="true"
-                                    placeholder="Role" name="role" ng-model="phnNum.ObjCategory">
-                                <option value="INBOUND">INBOUND</option>
-                                <option value="OUTBOUND">OUTBOUND</option>
-                                <option value="BOTH">BOTH</option>
-                                <option value="FAX">FAX</option>
-                            </select>
-                        </div>
-
-                        <div class="col-md-3 col-sm-3 col-xs-12">
-                            <label>Company *</label>
-                            <select class="select2_single form-control" tabindex="-1"
-                                    aria-hidden="true"
-                                    id="company"
-                                    name="company" ng-model="phnNum.ClientCompany"
-                                    ng-model-options="{trackBy: '$value'}">
-                                <option ng-repeat="comp in companyList" value="{{comp.companyId}}">{{comp.companyName}}
-                                </option>
-                            </select>
-                        </div>
-
-                        <div class="col-md-1 col-sm-1 col-xs-12">
-                            <div style="position: relative; top: 30px;">
-                                <label>Enable</label>
-                                <input type="checkbox" class="btn-success" ng-model="phnNum.Enable">
-                            </div>
-
-                        </div>
-
-                        <div class="clearfix"></div>
-                        <div class="col-md-4 col-sm-4 col-xs-12">
-                            <label>Inbound Limit</label>
-                            <input type="number" class="form-control"
-                                   ng-model="phnNum.InboundLimit">
-                        </div>
-                        <div class="col-md-4 col-sm-4 col-xs-12">
-                            <label>Outbound Limit</label>
-                            <input type="number" class="form-control"
-                                   ng-model="phnNum.OutboundLimit">
-                        </div>
-
-                        <div class="col-md-4 col-sm-4 col-xs-12">
-                            <label>Both Limit</label>
-                            <input type="number" class="form-control"
-                                   ng-model="phnNum.BothLimit">
-                        </div>
-
+                <div style="padding-top: 20px;">
+                    <div class="col-md-8 col-sm-12 col-xs-12">
+                        <input
+                            accept=".csv"
+                            type="file"
+                            class="file-chooser"
+                            id="files123"
+                            name="files[]"
+                            onchange="angular.element(this).scope().uploadFile(this)"
+                        />
+                        <i class="fa fa-refresh"
+                               style="cursor: pointer; font-size: 16px;"
+                               onclick="angular.element(this).scope().refreshData()"
+                               title="Refresh"></i>
                     </div>
-                    <div class="clearfix"></div>
-                    <br>
-                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
-                            <button type="submit" ng-disabled="!phnNum.PhoneNumber || !phnNum.ObjCategory || !phnNum.ClientCompany" class="btn btn-success"
-                                    ng-click="addPhoneNumber()">{{status}}
-                            </button>
-                        </div>
-                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
-                            <button ng-if="status === 'Save'" class="btn btn-primary"
-                                    ng-click="resetPhoneForm()">Reset
-                            </button>
-                        </div>
-
+                </div>
+                <div
+                    class="col-lg-12 col-xs-12">
+                    <div  ui-grid="gridOptions" ui-grid-importer class="grid"></div>
+                    <div>
+                        <label>rows: {{gridApi.grid.getVisibleRows().length}}</label>
                     </div>
-
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <button type="button" class="btn btn-success" ng-click="addPhoneNumberBulk()" ng-disabled="status === 'Saving...'">
+                        {{status}}
+                    </button>
                 </div>
 
 
