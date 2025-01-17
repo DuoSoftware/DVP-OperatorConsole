@@ -244,8 +244,125 @@
             </div>
 
         </div>
-
         <div ng-if="appState === 'PHONESAVE' || appState === 'PHONEUPDATE'" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 x_panel">
+            <div class="x-title">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <h2>{{status}} Phone Number Configuration<b class="pull-right" style="border-radius: 4px; background-color: yellow; padding: 5px">TRUNK : {{currentTrunk.TrunkCode}}</b></h2>
+                    <div class="ln_solid"></div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <br>
+        
+            <div class="x-content">
+        
+                <!-- Add Phone Number Section (PHONESAVE) -->
+                <div ng-if="appState === 'PHONESAVE'">
+                    <div class="form-group">
+                        <div style="padding-top: 20px;">
+                            <div class="col-md-8 col-sm-12 col-xs-12">
+                                <input
+                                    accept=".csv"
+                                    type="file"
+                                    class="file-chooser"
+                                    id="files123"
+                                    name="files[]"
+                                    onchange="angular.element(this).scope().uploadFile(this)"
+                                />
+                            </div>
+                            <div class="col-md-8 col-sm-12 col-xs-12">
+                                <i class="fa fa-refresh"
+                                       style="cursor: pointer; font-size: 16px;"
+                                       onclick="angular.element(this).scope().refreshData()"
+                                       title="Refresh"></i>
+                            </div>
+                        </div>
+                        <div
+                            class="col-lg-12 col-xs-12">
+                            <div  ui-grid="gridOptions" ui-grid-importer class="grid"></div>
+                            <div>
+                                <label>rows: {{gridApi.grid.getVisibleRows().length}}</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <button type="button" class="btn btn-success" ng-click="addPhoneNumberBulk()" ng-disabled="status === 'Saving...'">
+                                {{status}}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+        
+                <!-- Edit Phone Number Section (PHONEUPDATE) -->
+                <div ng-if="appState === 'PHONEUPDATE'">
+                    <form ng-submit="updatePhoneNumber()">
+                        <div class="form-group">
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <label>Phone Number *</label>
+                                <input type="text" class="form-control" ng-model="phnNum.PhoneNumber" />
+                            </div>
+        
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <label>Number Type *</label>
+                                <select class="select2_single form-control" ng-model="phnNum.ObjCategory">
+                                    <option value="INBOUND">INBOUND</option>
+                                    <option value="OUTBOUND">OUTBOUND</option>
+                                    <option value="BOTH">BOTH</option>
+                                    <option value="FAX">FAX</option>
+                                </select>
+                            </div>
+        
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                                <label>Company *</label>
+                                <select class="select2_single form-control" ng-model="phnNum.ClientCompany">
+                                    <option ng-repeat="comp in companyList" value="{{comp.companyId}}">{{comp.companyName}}</option>
+                                </select>
+                            </div>
+        
+                            <div class="col-md-1 col-sm-1 col-xs-12">
+                                <div style="position: relative; top: 30px;">
+                                    <label>Enable</label>
+                                    <input type="checkbox" class="btn-success" ng-model="phnNum.Enable" />
+                                </div>
+                            </div>
+        
+                            <div class="clearfix"></div>
+                            <br>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <label>Inbound Limit</label>
+                                <input type="number" class="form-control" ng-model="phnNum.InboundLimit" />
+                            </div>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <label>Outbound Limit</label>
+                                <input type="number" class="form-control" ng-model="phnNum.OutboundLimit" />
+                            </div>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <label>Both Limit</label>
+                                <input type="number" class="form-control" ng-model="phnNum.BothLimit" />
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <br>
+                       
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+                            <button type="submit" class="btn btn-primary" ng-disabled="!phnNum.PhoneNumber || !phnNum.ObjCategory || !phnNum.ClientCompany">{{status}}</button>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12 ">
+                         <button 
+                            ng-if="status === 'Save'" 
+                            class="btn btn-primary" 
+                            ng-click="resetPhoneForm()"
+                            style="padding: 6px 10px;">
+                            <i class="fa fa-refresh" title="Refresh"></i>
+                        </button>
+                        </div>
+                       
+                    </form>
+                </div>
+        
+            </div>
+        </div>
+
+        <!-- <div ng-if="appState === 'PHONESAVE' || appState === 'PHONEUPDATE'" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 x_panel">
             <div class="x-title">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <h2>{{status}} Phone Number Configuration<b class="pull-right" style="border-radius: 4px; background-color: yellow; padding: 5px">TRUNK : {{currentTrunk.TrunkCode}}</b></h2>
@@ -290,7 +407,7 @@
 
             </div>
 
-        </div>
+        </div> -->
 
         <div ng-if="appState === 'TRUNKLIST'" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 x_panel">
             <div class="x-title">
