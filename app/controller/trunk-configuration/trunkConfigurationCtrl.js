@@ -1139,6 +1139,44 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, $timeout, ng
     };
 
 
+    $scope.gridOptions = {
+        enableRowHashing: false,
+        enableGridMenu: false,
+        data: 'data',
+        columnDefs: [],
+    };
+    $scope.data = [];
+    $scope.uploadFile = function (inputElement) {
+        var file = inputElement.files[0];
+        if (file && file.name.endsWith('.csv')) {
+            Papa.parse(file, {
+                complete: function (results) {
+                    $scope.data = results.data;
+
+                    var headerRow = results.data[0];
+                    $scope.gridOptions.columnDefs = headerRow.map(function (columnName) {
+                        return {
+                            name: columnName,
+                            field: columnName
+                        };
+                    });
+
+                    $scope.$apply();
+                },
+                header: true,
+                skipEmptyLines: true
+            });
+        } else {
+            $scope.showAlert('Please upload a valid CSV file', errMsg, 'error');
+        }
+    };
+
+    $scope.refreshData = function () {
+        $scope.data = [];
+        $scope.gridOptions.columnDefs = [];
+        $scope.$apply();
+        document.getElementById('fileInput').value = '';
+    };
 
 
     loadTrunks();
