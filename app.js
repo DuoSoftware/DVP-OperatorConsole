@@ -228,7 +228,7 @@ var baseUrls = {
   sipUserEndpointService: "http://sipuserendpointservice.facetonelite.com/DVP/API/1.0.0.0/", // 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/',
   userServiceAuthUrl: "http://userservice.facetonelite.com/",
   resourceServiceBaseUrl:"http://resourceservice.facetonelite.com/DVP/API/1.0.0.0/ResourceManager/", // resourceservice.app.veery.cloud
-  phoneNumTrunkServiceBaseURL: "http://phonenumbertrunkservice.facetonelite.com/DVP/API/1.0.0.0/",
+  phoneNumTrunkServiceBaseURL: "http://localhost:8818/DVP/API/1.0.0.0/",
   ruleServiceBaseURL: "http://ruleservice.facetonelite.com/DVP/API/1.0.0.0/",
   limitHandlerBaseURL: "http://limithandler.facetonelite.com/DVP/API/1.0.0.0/",
   clusterConfigurationBaseURL: "http://clusterconfig.facetonelite.com/DVP/API/1.0.0.0/",

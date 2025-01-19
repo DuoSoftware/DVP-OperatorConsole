@@ -30,7 +30,7 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, $timeout, ng
 
     $scope.status = 'Save';
 
-
+    $scope.x = "";
     $scope.trunkList = [];
     $scope.trunkMonitoringList = [];
 
@@ -544,11 +544,6 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, $timeout, ng
         var lines = csvData.split('\n');
         var headers = lines[0].split(',');
     
-        // // Normalize headers (convert to lowercase and trim spaces)
-        // var normalizedHeaders = headers.map(function(header) {
-        //     return header.trim().toLowerCase().replace(/\s+/g, '_'); // Normalize space to underscore and convert to lowercase
-        // });
-    
         // Set column definitions for the grid
         $scope.gridOptions.columnDefs = headers.map(function(header) {
             return { name: header };
@@ -585,16 +580,7 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, $timeout, ng
             } else if (!rowData["ClientCompany"]) {
                 console.warn("Missing ClientCompany in row data: ", rowData);
             }
-            if (rowData["PhoneNumbers"]) {
-                const originalPhoneNumber = rowData["PhoneNumbers"];
-                rowData["PhoneNumbers"] = rowData["PhoneNumbers"].startsWith('0')
-                    ? rowData["PhoneNumbers"]
-                    : '0' + rowData["PhoneNumbers"];
-                console.log(
-                    `Original Phone: ${originalPhoneNumber}, Updated Phone: ${rowData["PhoneNumbers"]}`
-                );
-            }
-            // Only include valid rows (no empty columns)
+  
             return isValidRow ? rowData : null;
         }).filter(function(row) {
             return row !== null; // Remove null entries from the final data
@@ -602,7 +588,41 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, $timeout, ng
     
         $scope.$apply();
     };
+    $scope.prefix = ''; 
     
+    $scope.addPrefixToPhoneNumbers = function () {
+        // Ensure the prefix is defined and not just empty spaces
+        var prefix = ($scope.prefix && $scope.prefix.trim()) || '';  // Default to empty string if undefined or null
+    
+        // Validate the prefix (Ensure it's a valid format)
+        if (!prefix || !$scope.prefixPattern.test(prefix)) {
+            alert('Please enter a valid prefix (e.g., +94, 0, +1)');
+            return;
+        }
+    
+        // Check if grid data exists
+        if ($scope.gridOptions && $scope.gridOptions.data && Array.isArray($scope.gridOptions.data)) {
+            $scope.gridOptions.data.forEach(function (row) {
+                if (row.PhoneNumbers) {
+                    // Add the prefix to phone numbers, only if it's not already present
+                    if (!row.PhoneNumbers.startsWith(prefix)) {
+                        row.PhoneNumbers = prefix + row.PhoneNumbers;
+                    }
+                } else {
+                    console.warn('PhoneNumber field is missing in this row:', row);
+                }
+            });
+    
+            // Ensure the grid is refreshed after the update
+            $scope.$apply();
+            console.log("Updated grid data:", $scope.gridOptions.data);
+        } else {
+            console.error("Grid data is not available.");
+        }
+    };
+    
+    
+        
     $scope.refreshData = function () {
         $scope.gridOptions.columnDefs = [];
         $scope.gridOptions.data = [];
