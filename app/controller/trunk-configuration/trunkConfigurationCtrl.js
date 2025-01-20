@@ -585,13 +585,13 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, $timeout, ng
             } else if (!rowData["ClientCompany"]) {
                 console.warn("Missing ClientCompany in row data: ", rowData);
             }
-            if (rowData["PhoneNumbers"]) {
-                const originalPhoneNumber = rowData["PhoneNumbers"];
-                rowData["PhoneNumbers"] = rowData["PhoneNumbers"].startsWith('0')
+            if (rowData["PhoneNumber"]) {
+                const originalPhoneNumber = rowData["PhoneNumber"];
+                rowData["PhoneNumber"] = rowData["PhoneNumber"].startsWith('0')
                     ? rowData["PhoneNumbers"]
-                    : '0' + rowData["PhoneNumbers"];
+                    : '0' + rowData["PhoneNumber"];
                 console.log(
-                    `Original Phone: ${originalPhoneNumber}, Updated Phone: ${rowData["PhoneNumbers"]}`
+                    `Original Phone: ${originalPhoneNumber}, Updated Phone: ${rowData["PhoneNumber"]}`
                 );
             }
             // Only include valid rows (no empty columns)
@@ -678,31 +678,34 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, $timeout, ng
             $scope.refreshData(); // This will reset the grid and the file input
         });
     };
-    
-    $scope.updatePhoneNumber = function () {
-        // Change the status to "Saving..." or a loading message before submitting
-        $scope.status = 'Saving...';
-    
-        // Call the service to update the phone number
-        phnNumTrunkService.updatePhoneNumberTenant($scope.phnNum)
-            .then(function (data) {
-                if (data.IsSuccess) {
-                    // Display success notification
+    $scope.addPhoneNumber = function ()
+    {
+        $scope.phnNum.TrunkId = $scope.currentTrunk.id;
+
+        if($scope.appState === 'PHONEUPDATE')
+        {
+            phnNumTrunkService.updatePhoneNumberTenant($scope.phnNum).then(function (data) {
+                if (data.IsSuccess)
+                {
                     ngNotify.set('Phone number updated successfully', {
                         position: 'top',
                         sticky: false,
                         duration: 3000,
                         type: 'success'
                     });
-    
-                    // Call the function to show the updated number list
+
                     $scope.showNumberList($scope.currentTrunk);
-    
-                    // Reset form data and status after successful update
-                    $scope.resetPhoneForm();  // Reset the form and status
-                } else {
-                    // Handle error scenario
-                    var errMsg = data.Exception && data.Exception.Message || data.CustomMessage || "Unknown error occurred";
+                }
+                else
+                {
+                    var errMsg = "";
+                    if (data.Exception && data.Exception.Message) {
+                        errMsg = data.Exception.Message;
+                    }
+
+                    if (data.CustomMessage) {
+                        errMsg = data.CustomMessage;
+                    }
                     ngNotify.set(errMsg, {
                         position: 'top',
                         sticky: false,
@@ -710,24 +713,71 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, $timeout, ng
                         type: 'error'
                     });
                 }
-            })
-            .catch(function (err) {
-                // Handle catch block error
-                var errMsg = err.statusText || "Error updating phone number";
+
+            }, function (err)
+            {
+                var errMsg = "Error updating phone number";
+                if (err.statusText) {
+                    errMsg = err.statusText;
+                }
                 ngNotify.set(errMsg, {
                     position: 'top',
                     sticky: false,
                     duration: 3000,
                     type: 'error'
                 });
-            })
-            .finally(function () {
-                if ($scope.status !== 'Saving...') {
-                    $scope.status = 'Upload';
-                }
             });
+        }
+        else
+        {
+            phnNumTrunkService.addPhoneNumberTenant($scope.phnNum).then(function (data) {
+                if (data.IsSuccess)
+                {
+                    ngNotify.set('Phone number added successfully', {
+                        position: 'top',
+                        sticky: false,
+                        duration: 3000,
+                        type: 'success'
+                    });
+
+                    $scope.showNumberList($scope.currentTrunk);
+                }
+                else
+                {
+                    var errMsg = "";
+                    if (data.Exception && data.Exception.Message) {
+                        errMsg = data.Exception.Message;
+                    }
+
+                    if (data.CustomMessage) {
+                        errMsg = data.CustomMessage;
+                    }
+                    ngNotify.set(errMsg, {
+                        position: 'top',
+                        sticky: false,
+                        duration: 3000,
+                        type: 'error'
+                    });
+                }
+
+            }, function (err)
+            {
+                var errMsg = "Error adding phone number";
+                if (err.statusText) {
+                    errMsg = err.statusText;
+                }
+                ngNotify.set(errMsg, {
+                    position: 'top',
+                    sticky: false,
+                    duration: 3000,
+                    type: 'error'
+                });
+            });
+        }
+
+
     };
-    
+ 
     $scope.resetPhoneForm = function () {
         // Reset form model (phnNum)
         $scope.phnNum = {
