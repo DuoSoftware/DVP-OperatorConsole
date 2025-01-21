@@ -617,11 +617,9 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, $timeout, ng
             this.$apply(fn);
         }
     };
-    $scope.isProcessing = false;
+    
     $scope.addPhoneNumberBulk = function () {
-        if ($scope.isProcessing) return;  // Prevent function from running if already processing
-        $scope.isProcessing = true;  // Lock the process
-        // Assuming the grid data or bulk data is stored in $scope.gridOptions.data
+        
         let bulkData = $scope.gridOptions.data; // Modify this based on where your grid data is stored
         $scope.status = 'Saving...'; // Set status to 'Saving...'
         
@@ -680,12 +678,11 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, $timeout, ng
             $scope.status = 'Save Grid Data';  // Reset the status to the original button text
             $scope.refreshData(); // This will reset the grid and the file input
 
-        $scope.isProcessing = false;
+        
         });
     };
     $scope.addPhoneNumber = function ()
-    {   if ($scope.isProcessing) return;  // Prevent function from running if already processing
-        $scope.isProcessing = true;  // Lock the process
+    {   
         $scope.phnNum.TrunkId = $scope.currentTrunk.id;
 
         if($scope.appState === 'PHONEUPDATE')
@@ -731,9 +728,7 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, $timeout, ng
                     sticky: false,
                     duration: 3000,
                     type: 'error'
-                }).finally(function () {
-                    $scope.isProcessing = false;  // Unlock the process after it finishes
-                });
+                })
             });
         }
         else
@@ -779,9 +774,7 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, $timeout, ng
                     sticky: false,
                     duration: 3000,
                     type: 'error'
-                }).finally(function () {
-                    $scope.isProcessing = false;  // Unlock the process after it finishes
-                });
+                })
             });
         }
 
@@ -1045,6 +1038,7 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, $timeout, ng
     $scope.editPhone = function(phn)
     {
         angular.copy(phn, $scope.phnNum);
+        $scope.phnNum.NumberType = phn.ObjCategory;
 
         if(phn.LimitInfoInbound)
         {

@@ -305,8 +305,7 @@
     
                             <div class="col-md-4 col-sm-4 col-xs-12">
                                 <label>Number Type *</label>
-                                <select class="select2_single form-control" tabindex="-1" aria-hidden="true"
-                                        placeholder="Role" name="role" ng-model="phnNum.NumberType">
+                                <select class="select2_single form-control"  tabindex="-1" ng-model="phnNum.NumberType">
                                     <option value="INBOUND">INBOUND</option>
                                     <option value="OUTBOUND">OUTBOUND</option>
                                     <option value="BOTH">BOTH</option>
@@ -316,8 +315,7 @@
     
                             <div class="col-md-3 col-sm-3 col-xs-12">
                                 <label>Company *</label>
-                                <select class="select2_single form-control" tabindex="-1"
-                                        aria-hidden="true"
+                                <select class="select2_single form-control"
                                         id="company"
                                         name="company" ng-model="phnNum.ClientCompany"
                                         ng-model-options="{trackBy: '$value'}">
