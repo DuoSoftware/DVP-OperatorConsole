@@ -108,35 +108,56 @@
                 return resp.data;
             })
         };
-        var addPhoneNumberTenant = function(phnNumInfoArray) {
-           phnNumInfoArray.forEach(function(phnNum) {
+        var addPhoneNumberTenant = function(phnNumInfo) {
+            // Check if phnNumInfo is an array (multiple entries)
+            if (Array.isArray(phnNumInfo)) {
+                // Process each phone number entry for an array of phone numbers
+                phnNumInfo.forEach(function(phnNum) {
+                    cleanPhoneNumber(phnNum);  // Clean fields for each phone number
+                });
+            } else {
+                // Process single phone number entry (no cleaning needed)
+                processPhoneNumber(phnNumInfo);
+            }
+        
+            // Helper function to clean phone number fields
+            function cleanPhoneNumber(phnNum) {
                 for (var key in phnNum) {
                     if (phnNum.hasOwnProperty(key)) {
-                       var cleanKey = key.trim().replace(/\s+/g, '').replace(/\r/g, '').replace(/\n/g, '');
+                        var cleanKey = key.trim().replace(/\s+/g, '').replace(/\r/g, '').replace(/\n/g, '');
+                        
                         if (key !== cleanKey) {
                             phnNum[cleanKey] = phnNum[key];
                             delete phnNum[key];
                         }
+        
                         if (typeof phnNum[cleanKey] === 'string') {
-                           if (cleanKey === "Enable") {
+                            // Process "Enable" field specifically
+                            if (cleanKey === "Enable") {
                                 var enableValue = phnNum[cleanKey].toLowerCase().trim();
                                 if (enableValue === "true" || enableValue === "1") {
                                     phnNum[cleanKey] = true;
                                 } else if (enableValue === "false" || enableValue === "0") {
                                     phnNum[cleanKey] = false;
                                 } else {
-                                    phnNum[cleanKey] = false;
+                                    phnNum[cleanKey] = false; // Default to false if invalid value
                                 }
                             } else {
+                                // Clean the value for all other fields
                                 phnNum[cleanKey] = phnNum[cleanKey].replace(/\r/g, '').replace(/\n/g, '').trim();
                             }
                         }
                     }
                 }
-            });
-            console.log("Cleaned Phone Numbers Data:", JSON.stringify(phnNumInfoArray));
+                console.log("Cleaned Phone Number Data:", JSON.stringify(phnNum));
+            }
         
-            var jsonStr = JSON.stringify(phnNumInfoArray);
+            
+            function processPhoneNumber(phnNum) {
+                console.log("Processing Single Phone Number Data:", JSON.stringify(phnNum));
+            }
+        
+            var jsonStr = JSON.stringify(phnNumInfo);
         
             return $http({
                 method: 'POST',
@@ -149,6 +170,48 @@
                 throw error;
             });
         };
+        
+        // var addPhoneNumberTenant = function(phnNumInfoArray) {
+        //    phnNumInfoArray.forEach(function(phnNum) {
+        //         for (var key in phnNum) {
+        //             if (phnNum.hasOwnProperty(key)) {
+        //                var cleanKey = key.trim().replace(/\s+/g, '').replace(/\r/g, '').replace(/\n/g, '');
+        //                 if (key !== cleanKey) {
+        //                     phnNum[cleanKey] = phnNum[key];
+        //                     delete phnNum[key];
+        //                 }
+        //                 if (typeof phnNum[cleanKey] === 'string') {
+        //                    if (cleanKey === "Enable") {
+        //                         var enableValue = phnNum[cleanKey].toLowerCase().trim();
+        //                         if (enableValue === "true" || enableValue === "1") {
+        //                             phnNum[cleanKey] = true;
+        //                         } else if (enableValue === "false" || enableValue === "0") {
+        //                             phnNum[cleanKey] = false;
+        //                         } else {
+        //                             phnNum[cleanKey] = false;
+        //                         }
+        //                     } else {
+        //                         phnNum[cleanKey] = phnNum[cleanKey].replace(/\r/g, '').replace(/\n/g, '').trim();
+        //                     }
+        //                 }
+        //             }
+        //         }
+        //     });
+        //     console.log("Cleaned Phone Numbers Data:", JSON.stringify(phnNumInfoArray));
+        
+        //     var jsonStr = JSON.stringify(phnNumInfoArray);
+        
+        //     return $http({
+        //         method: 'POST',
+        //         url: baseUrls.phoneNumTrunkServiceBaseURL + 'PhoneNumberTrunkApi/TrunkNumberForTenant',
+        //         data: jsonStr
+        //     }).then(function(resp) {
+        //         return resp.data;
+        //     }).catch(function(error) {
+        //         console.error('Error in adding phone number:', error);
+        //         throw error;
+        //     });
+        // };
         
         // var addPhoneNumberTenant = function(phnNumInfo)
         // {
