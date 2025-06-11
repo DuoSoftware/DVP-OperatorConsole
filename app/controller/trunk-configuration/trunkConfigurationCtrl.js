@@ -544,23 +544,30 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, $timeout, ng
         var lines = csvData.split('\n');
         var headers = lines[0].split(',');
     
-        // // Normalize headers (convert to lowercase and trim spaces)
-        // var normalizedHeaders = headers.map(function(header) {
-        //     return header.trim().toLowerCase().replace(/\s+/g, '_'); // Normalize space to underscore and convert to lowercase
-        // });
-    
         // Set column definitions for the grid
+        // $scope.gridOptions.columnDefs = headers.map(function(header) {
+        //     return { name: header };
+        // });
+        headers.push('Add Zero');
         $scope.gridOptions.columnDefs = headers.map(function(header) {
+            if(header === 'Add Zero') {
+                return {
+                    name: header,
+                    field: 'Add Zero',
+                    enableFiltering: false,
+                    enableSorting: false,
+                    width: 120,
+                    cellTemplate: '<input type="checkbox" ng-model="row.entity.AddLeadingZero" />'
+                };
+            }
             return { name: header };
         });
-    
-        // Set data for the grid and filter out rows with empty columns
         $scope.gridOptions.data = lines.slice(1).map(function(line) {
             var row = line.split(',');
             var rowData = {};
             var isValidRow = true;
     
-            // Check each cell in the row to ensure it's not empty
+            
             row.forEach(function(cell, index) {
                 rowData[headers[index]] = cell.trim();
                 // If any cell is empty, mark the row as invalid
@@ -594,6 +601,7 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, $timeout, ng
                     `Original Phone: ${originalPhoneNumber}, Updated Phone: ${rowData["PhoneNumber"]}`
                 );
             }
+            rowData['Add Zero'] = false;
             // Only include valid rows (no empty columns)
             return isValidRow ? rowData : null;
         }).filter(function(row) {
@@ -620,15 +628,28 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, $timeout, ng
     
     $scope.addPhoneNumberBulk = function () {
         
-        let bulkData = $scope.gridOptions.data; // Modify this based on where your grid data is stored
-        $scope.status = 'Saving...'; // Set status to 'Saving...'
-        
+        let bulkData = $scope.gridOptions.data; 
+        $scope.status = 'Saving...'; 
         // Initialize counters for success and error tracking
         let successCount = 0;
         let errorCount = 0;
     
         // Update each phone number with the TrunkId
         angular.forEach(bulkData, function(phnNum) {
+         if (phnNum.PhoneNumbers) {
+        // Rename PhoneNumbers to PhoneNumber
+            phnNum.PhoneNumber = phnNum.PhoneNumbers;
+            delete phnNum.PhoneNumbers;
+
+            // If checkbox checked and PhoneNumber doesn't start with '0', prepend it
+            if (phnNum.AddLeadingZero && !phnNum.PhoneNumber.startsWith('0')) {
+                phnNum.PhoneNumber = '0' + phnNum.PhoneNumber;
+            } 
+            // If checkbox NOT checked and PhoneNumber starts with '0', remove it
+            else if (!phnNum.AddLeadingZero && phnNum.PhoneNumber.startsWith('0')) {
+                phnNum.PhoneNumber = phnNum.PhoneNumber.substring(1);
+            }
+        }
             phnNum.TrunkId = $scope.currentTrunk.id;
         });
     
