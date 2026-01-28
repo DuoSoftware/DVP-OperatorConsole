@@ -592,19 +592,13 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, $timeout, ng
             } else if (!rowData["ClientCompany"]) {
                 console.warn("Missing ClientCompany in row data: ", rowData);
             }
-            if (rowData["PhoneNumber"]) {
-                const originalPhoneNumber = rowData["PhoneNumber"];
-                rowData["PhoneNumber"] = rowData["PhoneNumber"].startsWith('0')
-                    ? rowData["PhoneNumbers"]
-                    : '0' + rowData["PhoneNumber"];
-                console.log(
-                    `Original Phone: ${originalPhoneNumber}, Updated Phone: ${rowData["PhoneNumber"]}`
-                );
+            if (rowData["PhoneNumber"] && rowData["NumberType"] !== 'OUTBOUND' && !rowData["PhoneNumber"].startsWith('0')) {
+                rowData["PhoneNumber"] = '0' + rowData["PhoneNumber"];
+                console.log("Modified PhoneNumber with leading zero: ", rowData["PhoneNumber"]);
+                
             }
 
-             if (rowData["NumberType"] === 'INBOUND' && !rowData["PhoneNumber"].startsWith('0')) {
-                    rowData["PhoneNumber"] = '0' + rowData["PhoneNumber"];
-                }
+             
             rowData['Add Zero'] = false;
             // Only include valid rows (no empty columns)
             return isValidRow ? rowData : null;
