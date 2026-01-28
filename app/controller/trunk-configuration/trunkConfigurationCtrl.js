@@ -640,19 +640,33 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, $timeout, ng
         // Rename PhoneNumbers to PhoneNumber
             phnNum.PhoneNumber = phnNum.PhoneNumbers;
             delete phnNum.PhoneNumbers;
-
+            console.log("phnNum.NumberType",phnNum.NumberType);
+            
+            if (phnNum.NumberType === 'OUTBOUND' && phnNum.PhoneNumber && phnNum.PhoneNumber.startsWith('0')) {
+                phnNum.PhoneNumber = phnNum.PhoneNumber.substring(1);
+            }
             // If checkbox checked and PhoneNumber doesn't start with '0', prepend it
-            if (phnNum.AddLeadingZero && !phnNum.PhoneNumber.startsWith('0')) {
+            else if (phnNum.AddLeadingZero && !phnNum.PhoneNumber.startsWith('0')) {
                 phnNum.PhoneNumber = '0' + phnNum.PhoneNumber;
             } 
             // If checkbox NOT checked and PhoneNumber starts with '0', remove it
             else if (!phnNum.AddLeadingZero && phnNum.PhoneNumber.startsWith('0')) {
                 phnNum.PhoneNumber = phnNum.PhoneNumber.substring(1);
             }
+
+            // // If checkbox checked and PhoneNumber doesn't start with '0', prepend it
+            // if (phnNum.AddLeadingZero && !phnNum.PhoneNumber.startsWith('0')) {
+            //     phnNum.PhoneNumber = '0' + phnNum.PhoneNumber;
+            // } 
+            // // If checkbox NOT checked and PhoneNumber starts with '0', remove it
+            // else if (!phnNum.AddLeadingZero && phnNum.PhoneNumber.startsWith('0')) {
+            //     phnNum.PhoneNumber = phnNum.PhoneNumber.substring(1);
+            // }
         }
             phnNum.TrunkId = $scope.currentTrunk.id;
         });
-    
+        console.log("bulkData",bulkData);
+        
         // Depending on the appState, we send either an add or update request
         let savePromise = phnNumTrunkService.addPhoneNumberTenant(bulkData);
     
