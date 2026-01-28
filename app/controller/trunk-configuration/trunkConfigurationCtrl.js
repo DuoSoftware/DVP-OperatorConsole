@@ -548,20 +548,7 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, $timeout, ng
         // $scope.gridOptions.columnDefs = headers.map(function(header) {
         //     return { name: header };
         // });
-        headers.push('Add Zero');
-        $scope.gridOptions.columnDefs = headers.map(function(header) {
-            if(header === 'Add Zero') {
-                return {
-                    name: header,
-                    field: 'Add Zero',
-                    enableFiltering: false,
-                    enableSorting: false,
-                    width: 120,
-                    cellTemplate: '<input type="checkbox" ng-model="row.entity.AddLeadingZero" />'
-                };
-            }
-            return { name: header };
-        });
+        
         $scope.gridOptions.data = lines.slice(1).map(function(line) {
             var row = line.split(',');
             var rowData = {};
@@ -592,16 +579,10 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, $timeout, ng
             } else if (!rowData["ClientCompany"]) {
                 console.warn("Missing ClientCompany in row data: ", rowData);
             }
-            if (rowData["PhoneNumber"]) {
-                const originalPhoneNumber = rowData["PhoneNumber"];
-                rowData["PhoneNumber"] = rowData["PhoneNumber"].startsWith('0')
-                    ? rowData["PhoneNumbers"]
-                    : '0' + rowData["PhoneNumber"];
-                console.log(
-                    `Original Phone: ${originalPhoneNumber}, Updated Phone: ${rowData["PhoneNumber"]}`
-                );
-            }
-            rowData['Add Zero'] = false;
+            if (rowData["PhoneNumber"] && rowData["NumberType"] !== 'OUTBOUND' && !rowData["PhoneNumber"].startsWith('0')) {
+                rowData["PhoneNumber"] = '0' + rowData["PhoneNumber"];
+                console.log("Modified PhoneNumber with leading zero: ", rowData["PhoneNumber"]);
+        }
             // Only include valid rows (no empty columns)
             return isValidRow ? rowData : null;
         }).filter(function(row) {
