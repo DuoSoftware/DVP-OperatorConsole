@@ -601,6 +601,10 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, $timeout, ng
                     `Original Phone: ${originalPhoneNumber}, Updated Phone: ${rowData["PhoneNumber"]}`
                 );
             }
+
+             if (rowData["NumberType"] === 'INBOUND' && !rowData["PhoneNumber"].startsWith('0')) {
+                    rowData["PhoneNumber"] = '0' + rowData["PhoneNumber"];
+                }
             rowData['Add Zero'] = false;
             // Only include valid rows (no empty columns)
             return isValidRow ? rowData : null;
