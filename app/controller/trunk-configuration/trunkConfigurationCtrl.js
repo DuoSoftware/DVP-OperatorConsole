@@ -553,8 +553,7 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, $timeout, ng
             var row = line.split(',');
             var rowData = {};
             var isValidRow = true;
-    
-            
+
             row.forEach(function(cell, index) {
                 rowData[headers[index]] = cell.trim();
                 // If any cell is empty, mark the row as invalid
@@ -565,7 +564,7 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, $timeout, ng
             if (isValidRow && rowData["ClientCompany"]) {
                 console.log("ClientCompany value in rowData: ", rowData["ClientCompany"]);
                 console.log("Company List: ", $scope.companyList);
-            
+
                 let company = $scope.companyList.find(function(companyItem) {
                     const companyName = companyItem.companyName ? companyItem.companyName.trim().toLowerCase() : '';
                     const clientCompany = rowData["ClientCompany"] ? rowData["ClientCompany"].trim().toLowerCase() : '';
