@@ -429,8 +429,7 @@
         };
 
         $scope.editPackageData = function (packageData) {
-            //$scope.packageObj = packageData;
-            $scope.packageObj = angular.merge(packageData, $scope.packageObj);
+            $scope.packageObj = packageData;
             $scope.onClickCollapsed('Update');
         };
 
